@@ -1,0 +1,41 @@
+{
+  "design": "survey",
+  "title": {"zh": "大学生体育锻炼、睡眠质量与焦虑的关系：自我效能的调节作用（模板）", "en": "Physical activity, sleep quality and anxiety in university students: the moderating role of self-efficacy (template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"id": "id"},
+  "demographics": [
+    {"name": "sex", "label": {"zh": "性别", "en": "Sex"}, "type": "cat", "levels": ["男", "女"], "level_labels": {"男": {"zh": "男", "en": "Male"}, "女": {"zh": "女", "en": "Female"}}},
+    {"name": "grade", "label": {"zh": "年级", "en": "Year of study"}, "type": "cat", "levels": ["大一", "大二", "大三", "大四"],
+     "level_labels": {"大一": {"zh": "大一", "en": "Year 1"}, "大二": {"zh": "大二", "en": "Year 2"}, "大三": {"zh": "大三", "en": "Year 3"}, "大四": {"zh": "大四", "en": "Year 4"}}},
+    {"name": "age", "label": {"zh": "年龄 (岁)", "en": "Age (years)"}, "type": "cont"}
+  ],
+  "scales": [
+    {"name": "PA", "label": {"zh": "体育锻炼", "en": "Physical activity"}, "items": ["PA1", "PA2", "PA3", "PA4", "PA5"], "min": 1, "max": 5},
+    {"name": "SLP", "label": {"zh": "睡眠质量", "en": "Sleep quality"}, "items": ["SL1", "SL2", "SL3", "SL4", "SL5"], "reverse": ["SL3"], "min": 1, "max": 5},
+    {"name": "SE", "label": {"zh": "自我效能", "en": "Self-efficacy"}, "items": ["SE1", "SE2", "SE3", "SE4"], "min": 1, "max": 5},
+    {"name": "ANX", "label": {"zh": "焦虑", "en": "Anxiety"}, "items": ["AX1", "AX2", "AX3", "AX4", "AX5", "AX6"], "reverse": ["AX6"], "min": 1, "max": 5}
+  ],
+  "common_method_bias": true,
+  "efa": {"enabled": true, "n_factors": null},
+  "group_compare": ["sex", "grade"],
+  "regression": [
+    {"y": "ANX", "x": ["PA", "SLP", "SE"], "covariates": ["sex", "age"]}
+  ],
+  "mediation": [
+    {"x": "PA", "m": "SLP", "y": "ANX", "covariates": ["sex", "age"], "n_boot": 5000, "seed": 7}
+  ],
+  "moderation": [
+    {"x": "PA", "w": "SE", "y": "ANX", "covariates": ["sex", "age"]}
+  ],
+  "simulate": {
+    "seed": 21,
+    "n": 420,
+    "loading": 0.74,
+    "missing": 0.0,
+    "paths": [["PA", "SLP", 0.40], ["PA", "SE", 0.30], ["SLP", "ANX", -0.38], ["PA", "ANX", -0.18], ["SE", "ANX", -0.20]],
+    "demographics": {"sex": {"levels": ["男", "女"], "p": [0.48, 0.52]}, "grade": {"levels": ["大一", "大二", "大三", "大四"], "p": [0.3, 0.28, 0.24, 0.18]},
+                     "age": {"mean": 20.1, "sd": 1.4}},
+    "group_effects": {"sex": {"ANX": {"女": 0.25}, "PA": {"男": 0.3}}}
+  }
+}

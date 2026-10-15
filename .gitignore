@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# generated outputs (reproducible)
+outputs/
+results_out/
+intake/
+
+# never commit raw or participant data
+data/
+clients/
+projects/
+*_private/

@@ -1,0 +1,30 @@
+{
+  "design": "single_group",
+  "title": {"zh": "8周功能性训练对青少年足球运动员体能的影响（单组前后测，模板）", "en": "Effects of 8 weeks of functional training on physical fitness in youth football players (single-group, template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"id": "id", "time": "time"},
+  "times": {"order": ["pre", "w4", "w8"], "labels": {"pre": {"zh": "训练前", "en": "Baseline"}, "w4": {"zh": "第4周", "en": "Week 4"}, "w8": {"zh": "第8周", "en": "Week 8"}}},
+  "outcomes": [
+    {"name": "cmj", "label": {"zh": "反向纵跳高度", "en": "Countermovement jump"}, "unit": "cm", "category": "power", "primary": true, "direction": "higher_better", "decimals": 1},
+    {"name": "sprint30", "label": {"zh": "30 m 冲刺时间", "en": "30-m sprint time"}, "unit": "s", "category": "speed", "direction": "lower_better", "decimals": 2},
+    {"name": "tt", "label": {"zh": "T 型灵敏测试", "en": "T-test agility"}, "unit": "s", "category": "speed", "direction": "lower_better", "decimals": 2},
+    {"name": "plank", "label": {"zh": "平板支撑时间", "en": "Plank hold"}, "unit": "s", "category": "trunk", "direction": "higher_better", "decimals": 0}
+  ],
+  "category_labels": {
+    "power": {"zh": "下肢爆发力", "en": "Lower-limb power"},
+    "speed": {"zh": "速度与灵敏", "en": "Speed and agility"},
+    "trunk": {"zh": "核心稳定", "en": "Trunk stability"}
+  },
+  "simulate": {
+    "seed": 5,
+    "n": 24,
+    "dropout": 0.0,
+    "effects": {
+      "cmj": {"mean": 36.0, "sd": 4.5, "r": 0.85, "change": {"w4": 1.2, "w8": 2.4}, "round": 1},
+      "sprint30": {"mean": 4.55, "sd": 0.22, "r": 0.85, "change": {"w4": -0.03, "w8": -0.07}, "round": 2},
+      "tt": {"mean": 10.4, "sd": 0.6, "r": 0.8, "change": {"w4": -0.10, "w8": -0.18}, "round": 2},
+      "plank": {"mean": 95, "sd": 22, "r": 0.8, "change": {"w4": 8, "w8": 18}, "round": 0}
+    }
+  }
+}

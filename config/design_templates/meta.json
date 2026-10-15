@@ -1,0 +1,16 @@
+{
+  "design": "meta",
+  "title": {"zh": "抗阻训练对2型糖尿病 HbA1c 的影响：随机对照试验的荟萃分析（模板）", "en": "Resistance training and HbA1c in type 2 diabetes: a meta-analysis of randomised trials (template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"study": "study", "n1": "n_int", "m1": "mean_int", "sd1": "sd_int", "n2": "n_ctl", "m2": "mean_ctl", "sd2": "sd_ctl", "subgroup": "duration_cat", "moderator": "weeks"},
+  "meta": {
+    "effect": "smd",
+    "direction": "lower_better",
+    "hksj": true,
+    "outcome_label": {"zh": "HbA1c", "en": "HbA1c"},
+    "subgroup_label": {"zh": "干预周期", "en": "Programme length"},
+    "moderator_label": {"zh": "干预周期 (周)", "en": "Programme length (weeks)"}
+  },
+  "simulate": {"seed": 9, "k": 22, "true": 0.45, "tau": 0.2, "subgroups": {"short": -0.1, "long": 0.15}, "moderator_slope": 0.02}
+}
