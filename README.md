@@ -19,7 +19,7 @@ design file and your data, in Chinese or English.**
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-figures.git
+git clone https://github.com/gaibin/sportsci-figures.git
 cd sportsci-figures
 pip install -e .
 
@@ -89,7 +89,7 @@ The repository is also a [Claude Code skill](https://docs.claude.com/en/docs/cla
 the house rules, and a self-check list. Clone it into your skills folder:
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-figures.git ~/.claude/skills/sportsci-figures
+git clone https://github.com/gaibin/sportsci-figures.git ~/.claude/skills/sportsci-figures
 pip install -e ~/.claude/skills/sportsci-figures
 ```
 

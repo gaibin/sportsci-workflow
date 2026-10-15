@@ -15,7 +15,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-figures.git
+git clone https://github.com/gaibin/sportsci-figures.git
 cd sportsci-figures
 pip install -e .
 
@@ -62,7 +62,7 @@ python cli.py results design.json -d intake/data_clean.csv -o results -l zh --ch
 仓库本身也是一个 Claude Code skill：`SKILL.md` 告诉 AI 走哪条路径、遵守哪些规则、交付前自查什么。
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-figures.git ~/.claude/skills/sportsci-figures
+git clone https://github.com/gaibin/sportsci-figures.git ~/.claude/skills/sportsci-figures
 pip install -e ~/.claude/skills/sportsci-figures
 ```
 
