@@ -1,0 +1,66 @@
+# Nature-style matplotlib defaults for sport science figures.
+# Loaded automatically by scripts/nature_plot.py.
+# To use elsewhere: matplotlib.rc_file("path/to/this/file")
+
+# ---- Font ----
+font.family         : sans-serif
+font.sans-serif     : Helvetica, Arial, DejaVu Sans
+font.size           : 8
+axes.titlesize      : 8
+axes.labelsize      : 8
+xtick.labelsize     : 7
+ytick.labelsize     : 7
+legend.fontsize     : 7
+figure.titlesize    : 9
+
+# ---- Axes ----
+axes.linewidth      : 0.75
+axes.spines.top     : False
+axes.spines.right   : False
+axes.edgecolor      : black
+axes.labelcolor     : black
+axes.titleweight    : normal
+axes.titlepad       : 6.0
+axes.labelpad       : 4.0
+axes.grid           : False
+
+# ---- Ticks (outward, journal-style) ----
+xtick.direction     : out
+ytick.direction     : out
+xtick.major.size    : 3.0
+ytick.major.size    : 3.0
+xtick.major.width   : 0.75
+ytick.major.width   : 0.75
+xtick.minor.size    : 1.5
+ytick.minor.size    : 1.5
+xtick.minor.width   : 0.5
+ytick.minor.width   : 0.5
+xtick.color         : black
+ytick.color         : black
+
+# ---- Lines ----
+lines.linewidth     : 1.0
+lines.markersize    : 4
+
+# ---- Legend ----
+legend.frameon      : False
+legend.borderpad    : 0.3
+legend.handlelength : 1.2
+
+# ---- Figure ----
+figure.dpi          : 120
+figure.facecolor    : white
+figure.edgecolor    : white
+savefig.dpi         : 300
+savefig.facecolor   : white
+savefig.edgecolor   : white
+savefig.bbox        : tight
+savefig.pad_inches  : 0.05
+
+# ---- PDF / PS ----
+pdf.fonttype        : 42
+ps.fonttype         : 42
+svg.fonttype        : none
+
+# ---- Color cycle (Wong 2011 colorblind-safe) ----
+axes.prop_cycle     : cycler('color', ['0072B2', 'D55E00', '009E73', 'CC79A7', 'F0E442', '56B4E9', 'E69F00', '000000'])

@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Output files from scripts
+*.pdf
+*.png
+*.svg
+!references/**/*.png
+
+# Notebooks / scratch
+.ipynb_checkpoints/
+*.ipynb
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Skill-specific scratch
+_test_*.txt
+_scratch/
+*.local.md
+
+# Real journal paragraphs kept locally for register practice; not redistributed
+references/voice-samples/
