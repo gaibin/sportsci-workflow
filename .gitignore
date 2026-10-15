@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# machine-specific settings (Zotero user ID, data folder, e-mail)
+config/local.toml
+
+# working files
+*_Zotero.docx
+*_edited.docx
+*_renumbered.docx
+zotero_match.json
+lit_candidates.md
+doi_check.md
