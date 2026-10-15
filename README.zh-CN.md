@@ -14,7 +14,7 @@
 3. **人够不够？** 按你实际能招到的人数算精确功效，并给出**这个人数能检出的最小效应**。
 4. **周数、设备、伦理流程、统计基础够不够？** 绿 / 黄 / 红，规则就印在每一项旁边。
 
-产出是一页**选题卡**（中文或英文）和一份 [`sportsci-figures`](https://github.com/<your-account>/sportsci-figures) 能直接校验和分析的 `design.json` 草稿。
+产出是一页**选题卡**（中文或英文）和一份 [`sportsci-figures`](https://github.com/gaibin/sportsci-figures) 能直接校验和分析的 `design.json` 草稿。
 
 它有意**不做**的事：编造文献、用模型给假设打分、替你写研究缺口、把各项加成一个"质量分"。
 缺口只会被陈述为"你这份记录集里的事实"，并带上它依据的计数。
@@ -22,7 +22,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-topic.git
+git clone https://github.com/gaibin/sportsci-topic.git
 cd sportsci-topic
 pip install -e .
 
@@ -78,7 +78,7 @@ r.assessment["overall"], r.evidence.direct_recent, r.plan.mdes_at_accessible
 
 从 CNKI / 万方 / Web of Science / PubMed / Zotero 导出。支持 `.csv`（UTF-8 或 GBK；能识别 `Title-题名`、`Year-年`、`Summary-摘要` 这类表头）、
 `.ris`、`.json`（CSL-JSON 或 `{title, year, …}` 列表）和 `.txt`（每行一个题名或一条 GB/T 7714 文献）。
-装了 [`sportsci-refs`](https://github.com/<your-account>/sportsci-refs) 后，`--fetch` 会用两两组合（P+I、I+O、P+O、P+I+O）的中英文检索式去查。
+装了 [`sportsci-refs`](https://github.com/gaibin/sportsci-refs) 后，`--fetch` 会用两两组合（P+I、I+O、P+O、P+I+O）的中英文检索式去查。
 
 ## 为什么这样做
 
@@ -98,7 +98,7 @@ r.assessment["overall"], r.evidence.direct_recent, r.plan.mdes_at_accessible
 `SKILL.md` 把工作分开：智能体负责整理中英文检索词、提出变体并解读卡片；计数和计算都交给代码。
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-topic.git ~/.claude/skills/sportsci-topic
+git clone https://github.com/gaibin/sportsci-topic.git ~/.claude/skills/sportsci-topic
 pip install -e ~/.claude/skills/sportsci-topic
 ```
 
