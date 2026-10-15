@@ -8,6 +8,22 @@ description: Topic selection and study planning for sport, exercise, health and 
 Counting and calculating, not brainstorming. A topic is acceptable when it is not already crowded, a design exists that can answer it,
 the people and weeks are enough, and the instruments exist. Every one of those is a number or a rule here.
 
+## First use (once)
+
+The commands in this skill come from a Python package that ships in this folder. Before the first command, check it is installed:
+
+```bash
+sportsci-topic --help
+```
+
+If the shell says the command is not found, install it from this skill's folder (Python 3.10+):
+
+```bash
+python -m pip install -e <path to this skill folder>
+```
+
+From a source checkout, `python cli.py <command>` in this folder works once the dependencies are installed. Do this check once per machine, not before every command.
+
 ## Iron rules
 
 1. **Never invent literature, effect sizes or "gaps".** Records come from files the student exports (or `sportsci-refs search`). A gap is a

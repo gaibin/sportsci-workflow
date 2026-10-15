@@ -18,6 +18,22 @@ Three ways in — pick by what the user has:
 
 ---
 
+## First use (once)
+
+The commands in this skill come from a Python package that ships in this folder. Before the first command, check it is installed:
+
+```bash
+sportsci-figures --help
+```
+
+If the shell says the command is not found, install it from this skill's folder (Python 3.10+):
+
+```bash
+python -m pip install -e <path to this skill folder>
+```
+
+From a source checkout, `python cli.py <command>` in this folder works once the dependencies are installed. Do this check once per machine, not before every command.
+
 ## 0. Ten-line summary
 
 1. Decide the language set once (`zh` or `en`). Never mix languages in one deliverable.

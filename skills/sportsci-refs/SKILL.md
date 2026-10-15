@@ -8,6 +8,22 @@ description: Reference management for Word documents (theses, proposals, papers)
 One pipeline from "a draft with typed `[n]` citations" to "citations Zotero can refresh, a self-consistent bibliography, and a document
 that still opens". Every step has a command and a check; nothing here is "be careful".
 
+## First use (once)
+
+The commands in this skill come from a Python package that ships in this folder. Before the first command, check it is installed:
+
+```bash
+sportsci-refs --help
+```
+
+If the shell says the command is not found, install it from this skill's folder (Python 3.10+):
+
+```bash
+python -m pip install -e <path to this skill folder>
+```
+
+From a source checkout, `python cli.py <command>` in this folder works once the dependencies are installed. Do this check once per machine, not before every command.
+
 ## Iron rules
 
 1. **Never invent.** Authors, years, volume/pages, DOIs: if it is missing, ask the author or read the paper. A candidate list is not a reference list.
