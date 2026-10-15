@@ -1,0 +1,43 @@
+{
+  "design": "parallel_prepost",
+  "title": {"zh": "12周抗阻训练对2型糖尿病患者血糖控制与身体成分的影响（模板）", "en": "Effects of 12 weeks of resistance training on glycaemic control and body composition in type 2 diabetes (template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"id": "id", "group": "group", "time": "time"},
+  "groups": {
+    "order": ["CON", "RT"],
+    "control": "CON",
+    "labels": {"CON": {"zh": "对照组", "en": "Control"}, "RT": {"zh": "抗阻训练组", "en": "Resistance training"}}
+  },
+  "times": {"order": ["pre", "post"], "labels": {"pre": {"zh": "基线", "en": "Baseline"}, "post": {"zh": "第12周", "en": "Week 12"}}},
+  "baseline_vars": [
+    {"name": "age", "label": {"zh": "年龄 (岁)", "en": "Age (years)"}, "type": "cont"},
+    {"name": "bmi", "label": {"zh": "BMI (kg/m²)", "en": "BMI (kg/m²)"}, "type": "cont"},
+    {"name": "sex", "label": {"zh": "性别", "en": "Sex"}, "type": "cat", "levels": ["F", "M"]}
+  ],
+  "outcomes": [
+    {"name": "hba1c", "label": {"zh": "HbA1c", "en": "HbA1c"}, "unit": "%", "category": "glycaemic", "primary": true, "direction": "lower_better", "decimals": 2},
+    {"name": "fpg", "label": {"zh": "空腹血糖", "en": "Fasting glucose"}, "unit": "mmol/L", "category": "glycaemic", "direction": "lower_better", "decimals": 2},
+    {"name": "mass", "label": {"zh": "骨骼肌量", "en": "Skeletal muscle mass"}, "unit": "kg", "category": "body composition", "direction": "higher_better", "decimals": 1},
+    {"name": "fat", "label": {"zh": "体脂率", "en": "Body fat"}, "unit": "%", "category": "body composition", "direction": "lower_better", "decimals": 1},
+    {"name": "grip", "label": {"zh": "握力", "en": "Grip strength"}, "unit": "kg", "category": "function", "direction": "higher_better", "decimals": 1}
+  ],
+  "category_labels": {
+    "glycaemic": {"zh": "血糖控制", "en": "Glycaemic control"},
+    "body composition": {"zh": "身体成分", "en": "Body composition"},
+    "function": {"zh": "功能", "en": "Function"}
+  },
+  "simulate": {
+    "seed": 11,
+    "n": {"CON": 30, "RT": 30},
+    "dropout": 0.05,
+    "baseline": {"age": {"mean": 56, "sd": 7}, "bmi": {"mean": 26.5, "sd": 2.8}, "sex": {"levels": ["F", "M"], "p": [0.45, 0.55]}},
+    "effects": {
+      "hba1c": {"mean": 7.6, "sd": 0.8, "r": 0.75, "change": {"CON": -0.05, "RT": -0.55}},
+      "fpg": {"mean": 8.4, "sd": 1.4, "r": 0.6, "change": {"CON": -0.1, "RT": -0.8}},
+      "mass": {"mean": 24.0, "sd": 3.2, "r": 0.9, "change": {"CON": 0.0, "RT": 0.9}, "round": 1},
+      "fat": {"mean": 31.0, "sd": 5.0, "r": 0.85, "change": {"CON": 0.1, "RT": -1.4}, "round": 1},
+      "grip": {"mean": 29.0, "sd": 6.0, "r": 0.9, "change": {"CON": 0.2, "RT": 2.6}, "round": 1}
+    }
+  }
+}

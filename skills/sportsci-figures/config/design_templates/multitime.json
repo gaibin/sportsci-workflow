@@ -1,0 +1,38 @@
+{
+  "design": "multitime",
+  "title": {"zh": "16周力量训练的时间进程：四个时点的平行组研究（模板）", "en": "Time course of a 16-week strength programme: a parallel-group study with four assessments (template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"id": "id", "group": "group", "time": "time"},
+  "groups": {
+    "order": ["CON", "INT"],
+    "control": "CON",
+    "labels": {"CON": {"zh": "对照组", "en": "Control"}, "INT": {"zh": "干预组", "en": "Intervention"}}
+  },
+  "times": {
+    "order": ["w0", "w4", "w8", "w16"],
+    "primary": "w16",
+    "labels": {"w0": {"zh": "基线", "en": "Baseline"}, "w4": {"zh": "4周", "en": "Week 4"}, "w8": {"zh": "8周", "en": "Week 8"}, "w16": {"zh": "16周", "en": "Week 16"}}
+  },
+  "multitime": {"constrained_baseline": true},
+  "baseline_vars": [
+    {"name": "age", "label": {"zh": "年龄 (岁)", "en": "Age (years)"}, "type": "cont"},
+    {"name": "sex", "label": {"zh": "性别", "en": "Sex"}, "type": "cat", "levels": ["F", "M"]}
+  ],
+  "outcomes": [
+    {"name": "squat", "label": {"zh": "深蹲 1RM", "en": "Squat 1RM"}, "unit": "kg", "category": "strength", "primary": true, "direction": "higher_better", "decimals": 1},
+    {"name": "cmj", "label": {"zh": "纵跳高度", "en": "CMJ height"}, "unit": "cm", "category": "power", "direction": "higher_better", "decimals": 1},
+    {"name": "crp", "label": {"zh": "hs-CRP", "en": "hs-CRP"}, "unit": "mg/L", "category": "biomarker", "direction": "lower_better", "decimals": 2}
+  ],
+  "category_labels": {"strength": {"zh": "力量", "en": "Strength"}, "power": {"zh": "爆发力", "en": "Power"}, "biomarker": {"zh": "生物标志物", "en": "Biomarkers"}},
+  "simulate": {
+    "seed": 3,
+    "n": {"CON": 24, "INT": 24},
+    "baseline": {"age": {"mean": 24, "sd": 3.5}, "sex": {"levels": ["F", "M"], "p": [0.4, 0.6]}},
+    "effects": {
+      "squat": {"mean": 100, "sd": 20, "r": 0.9, "traj": {"CON": [0, 1, 1.5, 2], "INT": [0, 6, 12, 22]}, "round": 1},
+      "cmj": {"mean": 36, "sd": 5, "r": 0.85, "traj": {"CON": [0, 0.2, 0.3, 0.2], "INT": [0, 1.0, 1.9, 3.2]}, "round": 1},
+      "crp": {"mean": 1.6, "sd": 0.8, "r": 0.6, "traj": {"CON": [0, 0.0, 0.05, 0.0], "INT": [0, -0.1, -0.2, -0.3]}, "round": 2}
+    }
+  }
+}

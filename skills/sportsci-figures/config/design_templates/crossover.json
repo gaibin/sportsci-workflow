@@ -1,0 +1,31 @@
+{
+  "design": "crossover",
+  "title": {"zh": "不同时长抗阻训练对餐后血糖的急性影响：随机交叉试验（模板）", "en": "Acute effects of resistance exercise duration on postprandial glucose: a randomised crossover trial (template)"},
+  "language": "zh",
+  "simulated": true,
+  "columns": {"id": "id", "condition": "condition", "period": "period"},
+  "conditions": {
+    "order": ["CON", "RT20", "RT30", "RT45"],
+    "control": "CON",
+    "dose": {"CON": 0, "RT20": 20, "RT30": 30, "RT45": 45},
+    "pairs": [["RT45", "RT20"]],
+    "labels": {"CON": {"zh": "不运动对照", "en": "No exercise"}, "RT20": "RT20", "RT30": "RT30", "RT45": "RT45"}
+  },
+  "outcomes": [
+    {"name": "iauc", "label": {"zh": "0–6 h net iAUC", "en": "0–6 h net iAUC"}, "unit": "mmol·h/L", "category": "glucose", "primary": true, "direction": "lower_better", "decimals": 1},
+    {"name": "peak", "label": {"zh": "峰值血糖", "en": "Peak glucose"}, "unit": "mmol/L", "category": "glucose", "direction": "lower_better", "decimals": 2},
+    {"name": "tir", "label": {"zh": "6 h TIR", "en": "6-h TIR"}, "unit": "%", "category": "glucose", "direction": "higher_better", "decimals": 0},
+    {"name": "rpe", "label": {"zh": "RPE", "en": "RPE"}, "unit": "6–20", "category": "perception", "direction": "neutral", "decimals": 1}
+  ],
+  "category_labels": {"glucose": {"zh": "血糖指标", "en": "Glucose metrics"}, "perception": {"zh": "主观感受", "en": "Perception"}},
+  "simulate": {
+    "seed": 5,
+    "n": 24,
+    "effects": {
+      "iauc": {"mean": 12.0, "sd_between": 4.0, "sd_within": 3.0, "effect": {"CON": 0, "RT20": -3.6, "RT30": -4.4, "RT45": -4.6}, "period_effect": 0.2},
+      "peak": {"mean": 11.2, "sd_between": 1.5, "sd_within": 0.9, "effect": {"CON": 0, "RT20": -0.7, "RT30": -0.9, "RT45": -1.0}},
+      "tir": {"mean": 62, "sd_between": 12, "sd_within": 8, "effect": {"CON": 0, "RT20": 7, "RT30": 9, "RT45": 10}, "round": 0},
+      "rpe": {"mean": 8.0, "sd_between": 1.5, "sd_within": 1.2, "effect": {"CON": 0, "RT20": 4.5, "RT30": 5.2, "RT45": 6.4}, "round": 1}
+    }
+  }
+}
