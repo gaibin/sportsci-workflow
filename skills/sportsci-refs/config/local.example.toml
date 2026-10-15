@@ -1,0 +1,13 @@
+# Copy to config/local.toml (git-ignored) and fill in. Environment variables override these values.
+
+[refs]
+# Zotero desktop local API (Zotero 7: Settings -> Advanced -> "Allow other applications on this computer to communicate with Zotero")
+zotero_api = "http://127.0.0.1:23119"
+# Numeric user ID shown at https://www.zotero.org/settings/keys — used in citation URIs (http://zotero.org/users/<id>/items/<KEY>)
+zotero_user_id = ""
+# Zotero data folder containing zotero.sqlite (Settings -> Advanced -> Files and Folders). Only read, from a temporary copy.
+zotero_data_dir = ""
+# Optional: sent as mailto in the User-Agent so Crossref / OpenAlex route requests to their "polite pool"
+contact_email = ""
+# CSL style the school requires; set the same style in Word -> Zotero -> Document Preferences
+citation_style = "china-national-standard-gb-t-7714-2015-numeric"
