@@ -1,0 +1,335 @@
+{
+  "overall": "red",
+  "checks": [
+    {
+      "id": "sample",
+      "status": "red",
+      "title": "样本量",
+      "detail": "d = 0.70：需要分析 68 人（含脱落约入组 80）；可及 40 人，脱落后约 34，功效 0.51；该人数能以 80% 功效检出的最小效应 d ≈ 0.99。",
+      "rule": "绿：可及人数下的功效 ≥ 0.80；黄：0.60–0.80，或没有效应量来源；红：< 0.60",
+      "numbers": {
+        "accessible_enrol": 40,
+        "accessible_analysed": 34,
+        "dropout": 0.15,
+        "required_total_analysed": 68,
+        "required_total_enrol": 80,
+        "power_at_accessible": 0.5070114936353017,
+        "mdes": 0.9920312444223219,
+        "mdes_label": "d"
+      }
+    },
+    {
+      "id": "time",
+      "status": "green",
+      "title": "时间",
+      "detail": "需要 22 周（伦理 4 + 招募 2 + 干预 8 + 测试 2 + 分析写作 6），可用 28 周，余量 6 周。",
+      "rule": "绿：可用周数 − 所需周数 ≥ 所需的 20%；黄：有余量但不足 20%；红：所需周数超过可用周数",
+      "numbers": {
+        "ethics": 4,
+        "recruit": 2,
+        "intervention": 8,
+        "testing": 2,
+        "writing": 6,
+        "total": 22,
+        "available": 28,
+        "slack": 6
+      }
+    },
+    {
+      "id": "measures",
+      "status": "green",
+      "title": "测量与设备",
+      "detail": "已列出的测量都有设备",
+      "rule": "主要结局缺设备 = 红；次要结局缺设备 = 黄；没有写 needs 的指标不检查",
+      "numbers": {
+        "missing_primary": [],
+        "missing_other": [],
+        "unchecked": []
+      }
+    },
+    {
+      "id": "ethics",
+      "status": "yellow",
+      "title": "伦理",
+      "detail": "伦理审批中：批准前不能招募或收集数据",
+      "rule": "已批准/无需 = 绿；审批中 = 黄；尚未开始 = 黄（红，若时间检查为红）；涉及未成年人或患者 = 至少黄",
+      "numbers": {
+        "ethics": "pending",
+        "vulnerable": false
+      }
+    },
+    {
+      "id": "stats",
+      "status": "green",
+      "title": "统计分析",
+      "detail": "计划分析：终测的 ANCOVA（基线为协变量）；报告组间差、95% CI、Hedges g",
+      "rule": "绿：计划分析所需的统计水平 ≤ 你自评的水平；黄：高一级；红：高两级（改用备选分析）",
+      "numbers": {
+        "required": "intermediate",
+        "stated": "intermediate"
+      }
+    },
+    {
+      "id": "evidence",
+      "status": "green",
+      "title": "撞题",
+      "detail": "30 条记录；近 5 年直接重叠 1 条（全部年份 2）。",
+      "rule": "直接重叠（人群+干预+结局，近五年）：0 = 绿；1–3 = 绿（需说明差异）；4–9 = 黄；≥10 = 红；记录集 < 30 条 = 黄（只是草图）",
+      "numbers": {
+        "direct_recent": 1,
+        "direct_all": 2,
+        "n_records": 30,
+        "coverage": "ok"
+      }
+    }
+  ],
+  "sample": {
+    "test": "ancova",
+    "effect_label": "d = 0.70",
+    "effect_value": 0.7,
+    "source": "",
+    "n_per_group": 34,
+    "n_total": 68,
+    "n_enrol_total": 80,
+    "groups": 2,
+    "accessible_enrol": 40,
+    "accessible_analysed": 34,
+    "power_at_accessible": 0.5070114936353017,
+    "mdes_at_accessible": 0.9920312444223219,
+    "mdes_label": "d",
+    "sensitivity": [
+      {
+        "effect": "d = 0.3",
+        "n": 176,
+        "power_at_accessible": 0.1355236099576498
+      },
+      {
+        "effect": "d = 0.5",
+        "n": 64,
+        "power_at_accessible": 0.29247749862635364
+      },
+      {
+        "effect": "d = 0.8",
+        "n": 26,
+        "power_at_accessible": 0.6178281819090552
+      }
+    ],
+    "rules": [
+      "效应量没有写明来源（文献 DOI / 预实验 / 最小有意义差异）：样本量只作示意，不能写进开题。"
+    ],
+    "status": "ok",
+    "assumptions": "ANCOVA (baseline as covariate; df - 1), 2 equal groups, two-sided α = 0.05, power = 0.80"
+  },
+  "evidence": {
+    "n_records": 30,
+    "n_without_year": 0,
+    "years": {
+      "2015": 2,
+      "2016": 5,
+      "2017": 2,
+      "2018": 2,
+      "2019": 3,
+      "2020": 1,
+      "2021": 3,
+      "2022": 3,
+      "2023": 2,
+      "2024": 5,
+      "2025": 2
+    },
+    "window": [
+      2021,
+      2025
+    ],
+    "coverage": "ok",
+    "facet_counts": {
+      "population": 12,
+      "intervention": 6,
+      "comparator": 0,
+      "outcome": 10
+    },
+    "combos_all": {
+      "P+I": 4,
+      "P+O": 4,
+      "I+O": 4,
+      "P+I+O": 2
+    },
+    "combos_recent": {
+      "P+I": 2,
+      "P+O": 2,
+      "I+O": 2,
+      "P+I+O": 1
+    },
+    "direct_all": 2,
+    "direct_recent": 1,
+    "tier": "few",
+    "design_mix": {
+      "other": 4,
+      "rct": 2,
+      "review": 1,
+      "pilot": 1
+    },
+    "direct_design_mix": {
+      "pilot": 1,
+      "rct": 1
+    },
+    "nearest": [
+      {
+        "title": "Eight weeks of functional training improves countermovement jump in university students: a pilot study [synthetic example]",
+        "year": 2022,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+I+O",
+        "design": "pilot"
+      },
+      {
+        "title": "Eight weeks of functional training improves countermovement jump in university students: a randomised controlled trial [synthetic example]",
+        "year": 2019,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+I+O",
+        "design": "rct"
+      },
+      {
+        "title": "Effects of functional training on vertical jump height in older adults [synthetic example]",
+        "year": 2025,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "I+O",
+        "design": "other"
+      },
+      {
+        "title": "Resistance training and vertical jump height in university students [synthetic example]",
+        "year": 2024,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+O",
+        "design": "other"
+      },
+      {
+        "title": "Functional training and balance in university students: a randomised controlled trial [synthetic example]",
+        "year": 2021,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+I",
+        "design": "rct"
+      },
+      {
+        "title": "Effects of functional training on countermovement jump in older adults [synthetic example]",
+        "year": 2019,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "I+O",
+        "design": "other"
+      },
+      {
+        "title": "Resistance training and countermovement jump in 高校学生 [synthetic example]",
+        "year": 2018,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+O",
+        "design": "other"
+      },
+      {
+        "title": "Functional training and balance in university students: a systematic review [synthetic example]",
+        "year": 2016,
+        "doi": "",
+        "journal": "Synthetic example journal",
+        "abstract": "Synthetic record for the demo; not a real publication.",
+        "authors": "",
+        "keywords": "",
+        "source": "demo_records.csv",
+        "facets": "P+I",
+        "design": "review"
+      }
+    ],
+    "gaps": [
+      {
+        "kind": "direct_overlap",
+        "text": "记录集中有 2 条同时涉及「大学生」「功能性训练」「下肢爆发力」（近 5 年 1 条）；题目必须说明与它们的区别",
+        "counts": {
+          "P+I+O": 2
+        }
+      }
+    ],
+    "retrieval": [
+      {
+        "source": "demo_records.csv",
+        "query": "",
+        "n": 30
+      }
+    ]
+  },
+  "variants": [
+    {
+      "axes": {},
+      "n_facet_records": {
+        "population": 12,
+        "intervention": 6,
+        "comparator": 0,
+        "outcome": 10
+      },
+      "direct_all": 2,
+      "direct_recent": 1,
+      "delta_recent": 0,
+      "assessable": true,
+      "note": "base",
+      "name": "base"
+    },
+    {
+      "axes": {
+        "outcome": "变向能力"
+      },
+      "n_facet_records": {
+        "outcome": 1
+      },
+      "direct_all": 0,
+      "direct_recent": 0,
+      "delta_recent": -1,
+      "assessable": true,
+      "note": "",
+      "name": "outcome=变向能力"
+    },
+    {
+      "axes": {
+        "population": "高中生"
+      },
+      "n_facet_records": {
+        "population": 0
+      },
+      "direct_all": 0,
+      "direct_recent": 0,
+      "delta_recent": -1,
+      "assessable": false,
+      "note": "",
+      "name": "population=高中生"
+    }
+  ]
+}

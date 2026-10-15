@@ -1,0 +1,101 @@
+{
+  "design": "parallel_prepost",
+  "title": {
+    "zh": "8周功能性训练对大学生下肢爆发力的影响",
+    "en": "8周功能性训练对大学生下肢爆发力的影响"
+  },
+  "language": "zh",
+  "simulated": false,
+  "columns": {
+    "id": "id",
+    "group": "group",
+    "time": "time"
+  },
+  "groups": {
+    "order": [
+      "CON",
+      "G1"
+    ],
+    "control": "CON",
+    "labels": {
+      "CON": {
+        "zh": "对照组",
+        "en": "Control"
+      },
+      "G1": {
+        "zh": "干预组",
+        "en": "Intervention"
+      }
+    }
+  },
+  "times": {
+    "order": [
+      "pre",
+      "post"
+    ],
+    "labels": {
+      "pre": {
+        "zh": "基线",
+        "en": "Baseline"
+      },
+      "post": {
+        "zh": "第8周",
+        "en": "Week 8"
+      }
+    }
+  },
+  "baseline_vars": [
+    {
+      "name": "age",
+      "label": {
+        "zh": "年龄 (岁)",
+        "en": "Age (years)"
+      },
+      "type": "cont"
+    },
+    {
+      "name": "sex",
+      "label": {
+        "zh": "性别",
+        "en": "Sex"
+      },
+      "type": "cat",
+      "levels": [
+        "F",
+        "M"
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "name": "cmj",
+      "label": {
+        "zh": "纵跳高度",
+        "en": "Countermovement jump height"
+      },
+      "unit": "cm",
+      "category": "Outcomes",
+      "primary": true,
+      "direction": "higher_better",
+      "decimals": 1
+    },
+    {
+      "name": "sprint30",
+      "label": {
+        "zh": "30 m 冲刺时间",
+        "en": "30-m sprint time"
+      },
+      "unit": "s",
+      "category": "Outcomes",
+      "primary": false,
+      "direction": "lower_better",
+      "decimals": 1
+    }
+  ],
+  "category_labels": {
+    "Outcomes": {
+      "zh": "Outcomes",
+      "en": "Outcomes"
+    }
+  }
+}

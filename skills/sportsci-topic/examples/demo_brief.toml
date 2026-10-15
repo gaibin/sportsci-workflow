@@ -1,0 +1,84 @@
+# sportsci-topic 选题简报 / topic brief
+# 这是一张表，不是论文：只填你知道的事实和检索词，不要填"预期结果"。
+# Fill facts and search vocabulary only. Nothing here is a result.
+
+[topic]
+working_title = "8周功能性训练对大学生下肢爆发力的影响"
+language = "zh"                  # zh | en  — 选题卡的语言
+goal = "thesis"                  # thesis | journal | grant | course
+question_type = "effect"         # effect 干预效果 | acute 急性反应 | course 时间进程 | association 问卷关联 | synthesis 证据综合
+
+# ---- 研究问题的四个部分。每部分写中英文检索词（同义词越全，证据地图越准）----
+[pico.population]
+label = "大学生"
+terms = ["大学生", "高校学生", "university students", "college students"]
+
+[pico.intervention]
+label = "功能性训练"
+terms = ["功能性训练", "功能训练", "functional training"]
+
+[pico.comparator]
+label = "常规体育课"
+terms = ["常规体育课", "对照组", "control group"]
+
+[pico.outcome]
+label = "下肢爆发力"
+terms = ["下肢爆发力", "纵跳", "countermovement jump", "vertical jump", "lower limb power"]
+
+# ---- 测量指标：必须有且只有一个 primary = true（看数据前就定下来）----
+[[outcomes]]
+name = "cmj"
+label = "纵跳高度"
+label_en = "Countermovement jump height"
+unit = "cm"
+primary = true
+direction = "higher_better"
+needs = "jump mat"
+
+[[outcomes]]
+name = "sprint30"
+label = "30 m 冲刺时间"
+label_en = "30-m sprint time"
+unit = "s"
+direction = "lower_better"
+needs = "timing gates"
+
+# ---- 设计信息 ----
+[design]
+has_control = true               # 有没有对照组
+timepoints = 2                   # 测几次（基线+终测 = 2）
+groups = ["对照组", "干预组"]     # 第一个是对照
+groups_en = ["Control", "Intervention"]
+time_labels = ["基线", "第8周"]
+time_labels_en = ["Baseline", "Week 8"]
+
+# ---- 现实约束 ----
+[constraints]
+accessible_n = 40                # 你实际能招到多少人
+dropout = 0.15                   # 预计脱落比例
+weeks_available = 28             # 距离提交还有几周
+intervention_weeks = 8
+recruit_weeks = 2
+test_weeks = 2                   # 基线+终测各占的周数合计
+writing_weeks = 6                # 分析与写作预留
+ethics = "pending"               # approved | pending | not_started | not_needed
+vulnerable_population = false    # 未成年人 / 患者等
+equipment = ["jump mat", "timing gates"]
+stats_comfort = "intermediate"   # basic | intermediate | advanced
+supervisor_direction = ""        # 导师的研究方向（只出现在选题卡里）
+
+# ---- 样本量依据：效应量必须写来源（文献 DOI / 预实验 / 最小有意义差异）----
+[effect]
+source = ""                      # 例如 "Smith 2022 doi:10.xxxx Table 2" 或 "smallest effect of interest"
+d = 0.7                          # 标准化组间差（d）；ANCOVA 可改填 delta / sd / r_prepost
+alpha = 0.05
+power = 0.80
+
+# ---- 想比较的变体（可选）：每个轴给几个替代选项，由 variants 命令统计各自的重叠 ----
+[[variants.population]]
+label = "高中生"
+terms = ["高中生", "high school students", "adolescents"]
+
+[[variants.outcome]]
+label = "变向能力"
+terms = ["变向能力", "agility", "change of direction"]
