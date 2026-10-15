@@ -22,7 +22,7 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-refs.git
+git clone https://github.com/gaibin/sportsci-refs.git
 cd sportsci-refs
 pip install -e .
 
@@ -64,7 +64,7 @@ sportsci-refs compare 论文_Zotero.docx v3.docx          # 只有 word/document
 `SKILL.md` 给出流水线、铁律和检查项：
 
 ```bash
-git clone https://github.com/<your-account>/sportsci-refs.git ~/.claude/skills/sportsci-refs
+git clone https://github.com/gaibin/sportsci-refs.git ~/.claude/skills/sportsci-refs
 pip install -e ~/.claude/skills/sportsci-refs
 ```
 
