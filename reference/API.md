@@ -80,6 +80,10 @@ from sportsci_figures.pubstyle import figures as pf
 | `ax_spm(ax, x, tcurve, thr, label='t')` | SPM{t} with threshold lines and merged supra-threshold clusters |
 | `ax_ellipse(ax, x, y, color, level=0.95)` | confidence ellipse (COP, PCA scores); returns area |
 | `pitch_outline` / `ax_pitch_heat(ax, x, y)` | football pitch outline, smoothed position density |
+| `gaze_density(x, y, weights=None, screen=(1920, 1080), sigma=0.02, grid=(192, 108), units="px", origin="topleft", participant=None, min_points=3, info=None)` | fixed-kernel Gaussian density **relative to an even spread** (mean over the screen = 1); rows top to bottom; zeros if < `min_points` usable fixations; `info` receives n_total / n_used / n_offscreen / n_nonfinite / n_participants |
+| `to_screen_px(x, y, screen, units="px", origin="topleft")` | any export convention -> screen pixels, origin top-left (`units` px / norm, `origin` topleft / bottomleft / center); refuses 0-1 values declared as px |
+| `ax_gaze_heatmap(ax, x, y, weights=None, background=None, screen, sigma=0.02, cmap=GAZE_CMAP, alpha=0.45, vmax=None, vmax_pct=99, brighten=1.10, label=None, label_color, n_text=None, colorbar=True, units="px", origin="topleft", participant=None, stimulus_box=None)` | fixation heat map over the stimulus (path, PIL image or array); `n_text="auto"` writes participant / fixation counts from the data; `stimulus_box=(x0, y0, x1, y1)` for images smaller than the screen; warns when > 5 % of fixations are off screen; returns `(image, vmax)` |
+| `fig_gaze_heatmap_grid(panels, ncols=3, width=DOUBLE, screen, panel_aspect=None, shared_scale=False, **kw)` | grid of `ax_gaze_heatmap`; `panels = [dict(x, y, weights, participant, background, label, label_color, n_text, units, origin, stimulus_box)]`; `shared_scale=True` = one colour scale and one colour bar; unused cells hidden; returns a figure |
 | `ax_gantt(ax, tasks, milestones, xlabel)` | study schedule |
 | `paired_ci(a, b=None)` / `mean_se_curves(arr, sd=False)` / `category_colors(n)` | helpers |
 

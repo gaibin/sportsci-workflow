@@ -27,6 +27,7 @@ Take the closest row, copy its function from `examples/gallery/d_*.py`, replace 
 | Composition (time-in-range, body composition, sleep stages) | `ax_stacked_bars` (`ylim=None` for absolute values, `legend=True`) | |
 | High-dimensional (omics, biomarker panels) | `ax_volcano`, `ax_heatmap` (clustered rows, group strip), PCA scores with `ax_ellipse` | |
 | Spatial (centre of pressure, pitch tracking) | `ax_ellipse` (95% ellipse), `ax_pitch_heat` | |
+| Eye tracking (fixation x, y, duration, participant on a stimulus image) | `ax_gaze_heatmap` per image or category, `fig_gaze_heatmap_grid` for a panel grid, `gaze_density` for the raw grid | Fixed-width Gaussian density relative to an even spread (1 = even), equal weight per participant, `turbo` overlay; state `units` / `origin` / `screen` of the export. Own colour bar per panel, or `shared_scale=True`. Demo: `examples/gaze_heatmap_demo.py`. |
 | Study design | `draw_flow` (participant flow), `ax_gantt` (schedule), bars + line (periodisation) | |
 
 If nothing fits: compose from the primitives (`ax_bands`, scatter, bars, `ax_raincloud`), obey the rules in `SKILL.md` §3, then add the new

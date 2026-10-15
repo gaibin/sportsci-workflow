@@ -97,6 +97,7 @@ Spec fields and data layouts: `reference/DESIGN_SPEC.md`. From research question
 | composition | `ax_stacked_bars` |
 | omics | `ax_volcano`, `ax_heatmap`, `ax_ellipse` |
 | spatial | `ax_ellipse`, `ax_pitch_heat` |
+| eye tracking (fixations on a stimulus) | `ax_gaze_heatmap`, `fig_gaze_heatmap_grid`, `gaze_density`, `to_screen_px` (see *Eye tracking* below) |
 | design / flow | `draw_flow`, `ax_gantt` |
 
 All 26 data types have a runnable example in `examples/gallery/` (pictures in `assets/pubstyle_gallery/`); selection rules and colour
@@ -125,6 +126,23 @@ d.save("out/results.docx")
 ```
 Complete two-language reference script: `examples/pubstyle_demo.py`.
 
+### Eye tracking: one input contract, one look
+
+Fixation heat maps look the same for every user and every data set because nothing in them is estimated from the data or left to taste.
+
+| Fixed by the function | Set by you (state it once) |
+|---|---|
+| Gaussian kernel of fixed width `sigma = 0.02` of the screen width (about 1°), not data-driven | `screen=(W, H)` of the display, in pixels |
+| Value = density **relative to an even spread** (1 = even): independent of resolution, fixation count and the unit of the weights | `units`: `"px"` or `"norm"` (0-1) |
+| One colour map (`GAZE_CMAP`), alpha 0.45, scale 0 to the 99th percentile of the panel | `origin`: `"topleft"` (EyeLink, SMI, Tobii px), `"bottomleft"`, `"center"` (PsychoPy pix) |
+| Equal weight per participant when `participant=` is given | `weights` (durations), `participant` (ids), `stimulus_box` for an image smaller than the screen |
+
+Rules: pass `participant` for every group map (otherwise one long viewer dominates); use `n_text="auto"` so the counts come from the data;
+a panel with fewer than 3 usable fixations says so instead of drawing a blank scale; a warning means more than 5 % of fixations fall off the
+screen, so check `screen` / `units` / `origin` before trusting the picture. Colour bars are per panel by default; use
+`fig_gaze_heatmap_grid(..., shared_scale=True)` when colours must be compared between panels. A heat map is descriptive: report AOI
+statistics (dwell time, first fixation) in a table for any claim.
+
 ---
 
 ## 4. Hard rules
@@ -139,7 +157,10 @@ quantity + unit (`Glucose (mmol/L)`); time axes say what t = 0 is. Legends frame
 
 **Colours (fixed roles, `pubstyle/style.py`).** primary navy `#112378` · control sand `#C9A66B` · contrast terracotta `#C4573F` · middle dose
 `#3F4F9E` · slate `#8E98C6` · teal `#2F6F73` · ink `#161A26` · annotation grey `#626778`. Diverging maps terracotta–paper–navy (`DIVERGING`),
-sequential paper→navy (`SEQ`). Never rainbow maps, pure red/green/blue, `viridis`/`magma`, or other palettes.
+sequential paper→navy (`SEQ`). Never rainbow maps, pure red/green/blue, `viridis`/`magma`, or other palettes —
+with **one named exception**: eye-tracking fixation heat maps use the rainbow-type `turbo` map, because that is the field's convention and
+hot spots must read on photographs. It is the default of the gaze blocks only (`GAZE_CMAP`, overridable with `cmap=`); everything else, including
+other heat maps drawn on a stimulus or a pitch, stays navy.
 
 **Tables.** Three-line only (thick top and bottom rules, thin header rule, no vertical lines, no shading); first column left, others centred.
 `mean ± SD`, `n (%)`, `estimate (95% CI)`, P as `<0.001` or three decimals (never `0.000`). Table 1 reports SMD, not only P. A footnote states

@@ -75,7 +75,8 @@ Table N. {Title}
 | Safety | `{n} adverse events were recorded across both studies, {s} serious; the most frequent were ….` |
 
 ## 6. Do not
-- overall figure titles, 3-D, rainbow maps, pie charts, framed legends, default grey grids, neon green / pure red / pure blue;
+- overall figure titles, 3-D, rainbow maps, pie charts, framed legends, default grey grids, neon green / pure red / pure blue
+  (the one exception: eye-tracking fixation heat maps use `turbo`, the field's convention; it is the default of the gaze blocks only);
 - Chinese (or any non-English) characters anywhere in an English deliverable, including the footer, table cells and docx;
 - English figures made by hand-translating Chinese PNGs — regenerate with `apply_style("en")`.
 

@@ -9,6 +9,7 @@ Evidence synthesis        : meta_random_effects, fig_meta_forest, ax_funnel
 Curve fitting             : fit_band, ax_fit_band
 Omics-style               : ax_volcano, ax_heatmap
 Sport-science specific    : ax_waterfall (responders), ax_spm, ax_ellipse (COP), pitch_outline, ax_pitch_heat, ax_gantt
+Eye tracking              : to_screen_px, gaze_density, ax_gaze_heatmap, fig_gaze_heatmap_grid
 Helpers                   : paired_ci, mean_se_curves, category_colors
 
 Same contract as figures.py: draw only on the ``ax`` you pass, take every text string from the caller or from
@@ -26,8 +27,8 @@ from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.patches import Ellipse, FancyBboxPatch, Polygon, Rectangle
 from scipy import stats
 
-from .style import (C_AMBER, C_BAND, C_CORAL, C_GOLD_DARK, C_GREY, C_HAIR, C_INK, C_LIGHT, C_MAGENTA, C_MID, C_PALE_CONTRAST, C_PALE_SLATE, C_SLATE, C_TEAL,
-                    DIVERGING_CMAP, SEQ_CMAP, _P, fmt_p, hair_y, tr as L, wrap_label)
+from .style import (C_AMBER, C_BAND, C_CORAL, C_GOLD_DARK, C_GREY, C_HAIR, C_INK, C_LIGHT, C_MAGENTA, C_MID, C_PALE_CONTRAST, C_PALE_SLATE, C_PRIMARY, C_SLATE, C_TEAL,
+                    DIVERGING_CMAP, DOUBLE, SEQ_CMAP, _P, fmt_p, hair_y, tr as L, wrap_label)
 
 CAT = [C_MAGENTA, C_AMBER, C_CORAL, C_SLATE, C_TEAL, _P["blue"], _P["violet"], _P["brown"]]
 
@@ -628,6 +629,240 @@ def ax_pitch_heat(ax, x: np.ndarray, y: np.ndarray, length: float = 105, width: 
     im = ax.imshow(h.T / h.max(), origin="lower", extent=[0, length, 0, width], cmap=SEQ, alpha=0.9, vmin=0, vmax=1, zorder=0)
     pitch_outline(ax, length, width)
     return im
+
+
+# ============================================================================ eye tracking
+GAZE_SIGMA = 0.02          # Gaussian kernel sd as a share of the screen WIDTH (38 px on a 1920-px screen, about 1 degree at a normal desk distance)
+# The ONE deliberate exception to the navy-only rule: eye-tracking heat maps use the rainbow-type turbo map (the field's convention; hot spots must read
+# on photographs). It is only the default of the gaze blocks and can be replaced per call with cmap= (e.g. pf.SEQ). Nothing else uses it.
+GAZE_CMAP = "turbo"
+GAZE_GRID = (192, 108)
+GAZE_UNITS = ("px", "norm")
+GAZE_ORIGINS = ("topleft", "bottomleft", "center")
+
+
+def to_screen_px(x, y, screen: Tuple[int, int] = (1920, 1080), units: str = "px", origin: str = "topleft"):
+    """Bring fixation coordinates of any common export to screen pixels with the origin at the top-left.
+
+    ``units``  "px" (pixels) or "norm" (0-1 of the screen, Tobii / WebGazer style).
+    ``origin`` "topleft" (EyeLink, SMI, Tobii pixels), "bottomleft" (y grows upwards) or "center" (PsychoPy pix: origin in the middle, y up).
+    A "px" table whose values all lie in 0-1.5 is almost certainly normalised: that raises instead of drawing a dot in the corner.
+    """
+    if units not in GAZE_UNITS:
+        raise ValueError(f"units must be one of {GAZE_UNITS}, got {units!r}")
+    if origin not in GAZE_ORIGINS:
+        raise ValueError(f"origin must be one of {GAZE_ORIGINS}, got {origin!r}")
+    x = np.array(x, float, ndmin=1)
+    y = np.array(y, float, ndmin=1)
+    sw, sh = screen
+    fin = np.isfinite(x) & np.isfinite(y)
+    if units == "px" and fin.sum() >= 3 and sw > 100 and np.max(np.abs(x[fin])) <= 1.5 and np.max(np.abs(y[fin])) <= 1.5:
+        raise ValueError("all x/y values lie within 0-1.5 although units='px': these look like normalised coordinates; pass units='norm' "
+                         "(or check the unit of your export)")
+    if units == "norm":
+        x, y = x * sw, y * sh
+    if origin == "bottomleft":
+        y = sh - y
+    elif origin == "center":
+        x, y = x + sw / 2.0, sh / 2.0 - y
+    return x, y
+
+
+def _density_core(x, y, weights, sw, sh, sigma, grid, participant, min_points, info):
+    """Weighted histogram on the grid, smoothed with a FIXED Gaussian kernel; the mean over the screen is 1 (1 = even spread)."""
+    from scipy.ndimage import gaussian_filter
+    x = np.asarray(x, float)
+    y = np.asarray(y, float)
+    w = np.ones_like(x) if weights is None else np.asarray(weights, float)
+    pid = None if participant is None else np.asarray(participant)
+    gx, gy = grid
+    out = np.zeros((gy, gx))
+    finite = np.isfinite(x) & np.isfinite(y) & np.isfinite(w) & (w > 0)
+    inside = (x >= 0) & (x <= sw) & (y >= 0) & (y <= sh)
+    ok = finite & inside
+    if info is not None:
+        info.update(n_total=int(x.size), n_nonfinite=int((~finite).sum()), n_offscreen=int((finite & ~inside).sum()), n_used=int(ok.sum()),
+                    n_participants=int(len(np.unique(pid[ok]))) if pid is not None and ok.any() else None)
+    if ok.sum() < min_points:
+        return out
+    x, y, w = x[ok], y[ok], w[ok].copy()
+    if pid is not None:                                     # every participant counts once, however many fixations they made
+        p = pid[ok]
+        for u in np.unique(p):
+            m = p == u
+            w[m] /= w[m].sum()
+    h, _, _ = np.histogram2d(y, x, bins=[gy, gx], range=[[0, sh], [0, sw]], weights=w)
+    total = h.sum()
+    if total <= 0:
+        return out
+    sig_px = max(float(sigma), 1e-4) * sw
+    s_cells = (max(sig_px / (sh / gy), 1.0), max(sig_px / (sw / gx), 1.0))      # never finer than one cell: no aliasing
+    return gaussian_filter(h, sigma=s_cells, mode="reflect") / total * (gx * gy)
+
+
+def gaze_density(x, y, weights=None, screen: Tuple[int, int] = (1920, 1080), sigma: float = GAZE_SIGMA, grid: Tuple[int, int] = GAZE_GRID,
+                 units: str = "px", origin: str = "topleft", participant=None, min_points: int = 3, info: Optional[dict] = None) -> np.ndarray:
+    """Fixation density on a screen-sized grid, in units that mean the same thing for every dataset.
+
+    The value is the density RELATIVE TO AN EVEN SPREAD over the screen: 1 = the share of attention an even spread would give that spot,
+    10 = ten times more. It does not depend on the screen resolution, the number of fixations or the unit of ``weights`` (ms or s).
+
+    * ``x``, ``y``     fixation (or gaze-sample) coordinates; ``units`` / ``origin`` describe the export (see ``to_screen_px``).
+    * ``weights``      usually fixation durations; None = every fixation counts once.
+    * ``participant``  array of participant ids: each participant then carries equal total weight, so one long viewer cannot dominate.
+    * ``sigma``        kernel sd as a share of the screen width, FIXED (default 0.02 = about 1 degree). It is not estimated from the data,
+                       so a hot spot has the same width in a sparse and in a crowded data set. For ``d`` degrees use
+                       ``sigma = d * px_per_degree / screen_width_px``.
+    * ``info``         pass a dict to receive n_total, n_used, n_offscreen, n_nonfinite, n_participants.
+
+    Returns shape ``(grid[1], grid[0])``, rows top to bottom, ready for ``imshow(extent=[0, W, H, 0])``; all zeros when fewer than
+    ``min_points`` usable fixations remain. Fixations outside the screen are dropped (and counted in ``info``).
+    """
+    sw, sh = screen
+    px, py = to_screen_px(x, y, screen, units, origin)
+    return _density_core(px, py, weights, sw, sh, sigma, grid, participant, min_points, info)
+
+
+def _stimulus_rgb(background, brighten: float):
+    """Stimulus as an RGB PIL image: file path, PIL image, or an array (uint8 0-255 or float 0-1)."""
+    import os
+    from PIL import Image, ImageEnhance
+    if isinstance(background, (str, os.PathLike)):
+        img = Image.open(background)
+    elif isinstance(background, Image.Image):
+        img = background
+    else:
+        arr = np.asarray(background)
+        if arr.dtype != np.uint8:
+            arr = (np.clip(arr, 0, 1) * 255).astype(np.uint8) if float(np.nanmax(arr)) <= 1.0 else np.clip(arr, 0, 255).astype(np.uint8)
+        img = Image.fromarray(arr)
+    img = img.convert("RGB")
+    return ImageEnhance.Brightness(img).enhance(brighten) if brighten != 1.0 else img
+
+
+def _gaze_n_text(info: dict) -> str:
+    n, p = info["n_used"], info.get("n_participants")
+    if p:
+        return L(f"{p} 名被试 · {n} 个注视点", f"{p} participants · {n:,} fixations")
+    return L(f"{n} 个注视点", f"{n:,} fixations")
+
+
+def gaze_colorbar_label() -> str:
+    return L("相对注视密度 (均匀 = 1)", "Relative gaze density (even = 1)")
+
+
+def ax_gaze_heatmap(ax, x, y, weights=None, background=None, screen: Tuple[int, int] = (1920, 1080), sigma: float = GAZE_SIGMA, cmap=GAZE_CMAP,
+                    alpha: float = 0.45, vmax: Optional[float] = None, vmax_pct: float = 99.0, brighten: float = 1.10, label: Optional[str] = None,
+                    label_color: str = C_PRIMARY, n_text: Optional[str] = None, colorbar: bool = True, colorbar_label: Optional[str] = None,
+                    grid: Tuple[int, int] = GAZE_GRID, units: str = "px", origin: str = "topleft", participant=None,
+                    stimulus_box: Optional[Tuple[float, float, float, float]] = None, min_points: int = 3, warn_offscreen: float = 0.05):
+    """Fixation-density heat map drawn over the stimulus (one panel = one image or one image category).
+
+    Every choice that could differ between users is a fixed default or an explicit argument, so the same call gives the same picture:
+    the kernel is a fixed width (``sigma``), the density is relative to an even spread (so numbers are comparable across screens),
+    the colour scale runs 0 to ``vmax`` (default: the ``vmax_pct``-th percentile of the density), alpha, brightness and colour map are fixed.
+
+    ``units`` / ``origin``   coordinate convention of the export, see ``to_screen_px``.
+    ``participant``          ids, equal weight per participant (recommended for group maps).
+    ``stimulus_box``         (x0, y0, x1, y1) in screen pixels where the stimulus was actually shown, for images smaller than the screen;
+                             the panel then shows exactly that rectangle and the image keeps its own proportions.
+    ``n_text``               small tag at the bottom-right; "auto" writes the participant / fixation counts from the data.
+    ``label``                category chip at the top-left (colour ``label_color``).
+    A warning is raised when more than ``warn_offscreen`` of the fixations lie outside the screen (wrong ``screen``, ``units`` or ``origin``).
+    Each panel has its own colour bar unless the grid is drawn with ``shared_scale=True``. Returns ``(image, vmax)``.
+    """
+    import warnings
+    import matplotlib.ticker as mticker
+    from matplotlib import cm
+    from matplotlib.colors import Normalize
+    px, py = to_screen_px(x, y, screen, units, origin)
+    sw, sh = screen
+    if stimulus_box is not None:
+        bx0, by0, bx1, by1 = stimulus_box
+        px, py, sw, sh = px - bx0, py - by0, bx1 - bx0, by1 - by0
+    info: dict = {}
+    zz = _density_core(px, py, weights, sw, sh, sigma, grid, participant, min_points, info)
+    if info["n_total"] and info["n_offscreen"] / info["n_total"] > warn_offscreen:
+        warnings.warn(f"{info['n_offscreen']} of {info['n_total']} fixations lie outside the {sw:g} x {sh:g} screen and were dropped: "
+                      "check screen, units and origin", stacklevel=2)
+    pos = zz[zz > 0]
+    vm = float(vmax) if vmax is not None else (float(np.nanpercentile(pos, vmax_pct)) if pos.size else 1.0)
+    if background is not None:
+        ax.imshow(_stimulus_rgb(background, brighten), extent=[0, sw, sh, 0], aspect="auto", zorder=1)
+    im = ax.imshow(zz, extent=[0, sw, sh, 0], cmap=cmap, alpha=alpha, vmin=0, vmax=vm, aspect="auto", interpolation="bilinear", zorder=2)
+    ax.set_xlim(0, sw)
+    ax.set_ylim(sh, 0)
+    ax.axis("off")
+    if not pos.size:
+        ax.text(0.5, 0.5, L("注视点不足，未绘制", "too few fixations: no map"), transform=ax.transAxes, ha="center", va="center", fontsize=6.4,
+                color="white", bbox=dict(boxstyle="round,pad=0.3", fc=C_INK, ec="none", alpha=0.8))
+        colorbar = False
+    if label:
+        ax.text(0.015, 0.975, label, transform=ax.transAxes, ha="left", va="top", fontsize=6.4, fontweight="bold", color="white",
+                bbox=dict(boxstyle="round,pad=0.25", fc=label_color, ec="none", alpha=0.88))
+    tag = _gaze_n_text(info) if n_text == "auto" else n_text
+    if tag:
+        ax.text(0.97, 0.03, tag, transform=ax.transAxes, ha="right", va="bottom", fontsize=5.4, color="white",
+                bbox=dict(boxstyle="round,pad=0.25", fc=C_INK, ec="none", alpha=0.75))
+    if colorbar:
+        sm = cm.ScalarMappable(cmap=cmap, norm=Normalize(vmin=0, vmax=vm))
+        sm.set_array([])
+        cb = ax.figure.colorbar(sm, ax=ax, fraction=0.028, pad=0.01, aspect=28, shrink=0.88)
+        cb.set_label(colorbar_label if colorbar_label is not None else gaze_colorbar_label(), fontsize=5.6, labelpad=4)
+        cb.ax.tick_params(labelsize=5.0, length=2)
+        cb.ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _p: "0" if v == 0 else (f"{v:.1f}" if vm < 10 else f"{v:.0f}")))
+        cb.outline.set_linewidth(0.5)
+    return im, vm
+
+
+def fig_gaze_heatmap_grid(panels: Sequence[dict], ncols: int = 3, width: float = DOUBLE, screen: Tuple[int, int] = (1920, 1080),
+                          panel_aspect: Optional[float] = None, shared_scale: bool = False, **kw):
+    """Grid of ``ax_gaze_heatmap`` panels, returns a figure.
+
+    ``panels`` is a list of dicts with keys ``x``, ``y`` and optionally ``weights``, ``background``, ``label``, ``label_color``, ``n_text``,
+    ``participant``, ``units``, ``origin``, ``stimulus_box`` (any other ``ax_gaze_heatmap`` argument too, overriding ``**kw`` for that panel).
+    Unused cells in the last row are hidden. ``panel_aspect`` is width / height of one panel; default = the screen ratio so stimuli keep
+    their natural proportions.
+    ``shared_scale=True`` puts all panels on ONE colour scale (the largest per-panel ``vmax``) with a single colour bar, so colours can be
+    compared between panels. Densities are relative to an even spread, so this is meaningful even for panels with different numbers of fixations.
+    """
+    from matplotlib import cm
+    from matplotlib.colors import Normalize
+    n = len(panels)
+    nrows = int(np.ceil(n / ncols))
+    cell_w = width / ncols
+    aspect = panel_aspect if panel_aspect else screen[0] / screen[1]
+    fig, axes = plt.subplots(nrows, ncols, figsize=(width, nrows * cell_w / aspect * 1.12), gridspec_kw=dict(wspace=0.20, hspace=0.04), squeeze=False)
+    opts = [{"screen": screen, **kw, **p} for p in panels]
+    if shared_scale:
+        vms = []
+        for o in opts:
+            sw, sh = o["screen"]
+            px, py = to_screen_px(o["x"], o["y"], o["screen"], o.get("units", "px"), o.get("origin", "topleft"))
+            if o.get("stimulus_box") is not None:
+                b = o["stimulus_box"]
+                px, py, sw, sh = px - b[0], py - b[1], b[2] - b[0], b[3] - b[1]
+            z = _density_core(px, py, o.get("weights"), sw, sh, o.get("sigma", GAZE_SIGMA), o.get("grid", GAZE_GRID), o.get("participant"),
+                              o.get("min_points", 3), None)
+            pos = z[z > 0]
+            if pos.size:
+                vms.append(float(np.percentile(pos, o.get("vmax_pct", 99.0))))
+        common = max(vms) if vms else 1.0
+        for o in opts:
+            o["vmax"], o["colorbar"] = common, False
+    for ax, o in zip(axes.flat, opts):
+        ax_gaze_heatmap(ax, **o)
+    for ax in list(axes.flat)[n:]:
+        ax.set_visible(False)
+    if shared_scale:
+        sm = cm.ScalarMappable(cmap=opts[0].get("cmap", GAZE_CMAP), norm=Normalize(vmin=0, vmax=opts[0]["vmax"]))
+        sm.set_array([])
+        used = [a for a in axes.flat if a.get_visible()]
+        cb = fig.colorbar(sm, ax=used, fraction=0.025, pad=0.01, aspect=30, shrink=0.8)
+        cb.set_label(kw.get("colorbar_label") or gaze_colorbar_label(), fontsize=5.8, labelpad=4)
+        cb.ax.tick_params(labelsize=5.2, length=2)
+        cb.outline.set_linewidth(0.5)
+    return fig
 
 
 def ax_gantt(ax, tasks: Sequence[Tuple[str, float, float, str]], milestones: Sequence[Tuple[float, str]] = (), xlabel: str = "", row_h: float = 0.58) -> None:

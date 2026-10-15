@@ -12,6 +12,7 @@ For a complete, current-style result package run `python cli.py results config/d
 | 4 | Pre/post individual trajectories by arm (key outcomes) | `fig4_prepost.png` | `ax_prepost` | `subplots(2,3)`, 7.2 × 5.2 in, difference + P in each sub-title |
 | 5 | All outcomes, standardised effects by category | `fig5_forest.png` | `fig_forest_effects` | tall single axes; filled = adjusted-significant, grey = safety |
 | 6 | Composition bars + 24-h profile + dose–response scatter | `fig6_composition_profile_scatter.png` | `ax_stacked_bars` `ax_agp` `ax_scatter_fit` | `gs(1,3, ratios 1/1.2/1)`, 7.2 × 2.9 in |
+| 7 | Eye tracking: fixation density by stimulus category | `fig7_gaze_heatmap.png` (from `examples/gaze_heatmap_demo.py`, not part of the 6-figure demo) | `fig_gaze_heatmap_grid` (`ax_gaze_heatmap`, `gaze_density`) | 2 × 3 grid, 7.2 in wide, one colour bar per panel (or `shared_scale=True`); pool the fixations of a category on one representative image and say so in the legend |
 
 Real-project examples (zh): `图1_受试者流程`, `图2_干预日血糖曲线`, `图3_主要结局_net_iAUC`, `图4_次要结局_时间窗与24h指标`, `图5_研究二_CGM`, `图6_研究二_全部结局效应量森林图`, `图7_研究二_个体前后轨迹`, `图8_干预组依从性与改善幅度`.
 

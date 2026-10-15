@@ -71,3 +71,28 @@ def test_hand_written_matplotlib_also_comes_out_navy():
     assert to_hex(l1.get_color()).upper() == "#112378" and to_hex(l2.get_color()).upper() == "#C9A66B"
     assert im.get_cmap().name == "navy_seq"
     plt.close(fig)
+
+
+def test_rainbow_is_confined_to_the_gaze_heatmap_and_can_be_overridden():
+    """The two-tier rule: every block defaults to the navy maps; the eye-tracking heat map alone defaults to turbo (field convention)."""
+    import inspect
+    exceptions = []
+    for name, fn in inspect.getmembers(pf, inspect.isfunction):
+        prm = inspect.signature(fn).parameters.get("cmap")
+        if prm is None or prm.default is inspect.Parameter.empty or prm.default is None:
+            continue
+        if prm.default is pf.SEQ or prm.default is pf.DIVERGING or prm.default in ("navy_seq", "navy_div"):
+            continue
+        exceptions.append((name, prm.default))
+    assert exceptions == [("ax_gaze_heatmap", pf.GAZE_CMAP)], exceptions
+    assert pf.GAZE_CMAP == "turbo"
+    # not hard-wired: a caller can pass the navy map and gets it
+    import matplotlib
+    import matplotlib.pyplot as plt
+    matplotlib.use("Agg")
+    ps.apply_style("en")
+    fig, ax = plt.subplots()
+    rng = np.random.default_rng(0)
+    im, _ = pf.ax_gaze_heatmap(ax, rng.normal(900, 100, 200), rng.normal(500, 80, 200), cmap=pf.SEQ)
+    assert im.get_cmap() is pf.SEQ
+    plt.close(fig)
