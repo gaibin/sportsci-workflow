@@ -1,2 +1,11 @@
-*.pyc
 __pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+topic_out/
+results_out/
+*.local.toml
+config/local.toml

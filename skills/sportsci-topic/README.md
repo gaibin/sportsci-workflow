@@ -13,7 +13,7 @@
 3. **Are there enough people?** — exact power at the number you can really recruit, and the *smallest effect that number can detect*.
 4. **Do you have the weeks, the instruments, the ethics route and the statistics?** — green / yellow / red, with the rule printed next to each.
 
-The result is a one-page **topic card** (Chinese or English) and a `design.json` draft that [`sportsci-figures`](https://github.com/gaibin/sportsci-figures) can validate and analyse.
+The result is a one-page **topic card** (Chinese or English) and a `design.json` draft that [`sportsci-figures`](../sportsci-figures) can validate and analyse.
 
 What it deliberately does not do: invent references, score hypotheses with a model, write a research gap for you, or add up a "quality score".
 A gap is only ever stated about *your record set*, with the counts it rests on.
@@ -21,8 +21,8 @@ A gap is only ever stated about *your record set*, with the counts it rests on.
 ## Quick start
 
 ```bash
-git clone https://github.com/gaibin/sportsci-topic.git
-cd sportsci-topic
+git clone https://github.com/gaibin/sportsci-workflow.git
+cd sportsci-workflow/skills/sportsci-topic
 pip install -e .
 
 sportsci-topic new -o brief.toml        # a commented form: question terms (zh + en), outcomes, constraints, effect source
@@ -77,7 +77,7 @@ r.assessment["overall"], r.evidence.direct_recent, r.plan.mdes_at_accessible
 
 Export from CNKI / Wanfang / Web of Science / PubMed / Zotero. Accepted: `.csv` (UTF-8 or GBK; headers such as `Title-题名`, `Year-年`, `Summary-摘要` are recognised),
 `.ris`, `.json` (CSL-JSON or a list of `{title, year, …}`) and `.txt` (one title or one GB/T 7714 entry per line).
-With [`sportsci-refs`](https://github.com/gaibin/sportsci-refs) installed, `--fetch` runs pairwise queries (P+I, I+O, P+O, P+I+O) in both languages.
+With [`sportsci-refs`](../sportsci-refs) installed, `--fetch` runs pairwise queries (P+I, I+O, P+O, P+I+O) in both languages.
 
 ## Why it is built this way
 
@@ -97,7 +97,8 @@ Every threshold and rule: [`reference/METHOD.md`](reference/METHOD.md). Every br
 `SKILL.md` splits the work: the agent builds the bilingual search vocabulary, proposes variants and explains the card; the code counts and calculates.
 
 ```bash
-git clone https://github.com/gaibin/sportsci-topic.git ~/.claude/skills/sportsci-topic
+git clone https://github.com/gaibin/sportsci-workflow.git
+cp -r sportsci-workflow/skills/sportsci-topic ~/.claude/skills/
 pip install -e ~/.claude/skills/sportsci-topic
 ```
 
@@ -109,7 +110,7 @@ pip install -e ~/.claude/skills/sportsci-topic
 - Multi-time-point mixed models have no closed-form power; ANCOVA at the final time point is used and labelled.
 - Survey sample sizes are rules of thumb unless you supply `r` or `f²`.
 
-Part of a small set of tools: **sportsci-topic** (this repo) → **sportsci-figures** (analysis, figures, tables, Results document) → **sportsci-refs** (references and Zotero fields in Word).
+Part of [sportsci-workflow](../../README.md): **sportsci-topic** (this module) → **sportsci-figures** → **sportsci-writing** → **sportsci-refs**.
 
 ## Development
 

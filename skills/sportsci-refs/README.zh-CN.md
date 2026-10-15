@@ -22,8 +22,8 @@
 ## 快速开始
 
 ```bash
-git clone https://github.com/gaibin/sportsci-refs.git
-cd sportsci-refs
+git clone https://github.com/gaibin/sportsci-workflow.git
+cd sportsci-workflow/skills/sportsci-refs
 pip install -e .
 
 sportsci-refs status                                    # Zotero 是否可达（需要 Zotero 7 正在运行）
@@ -64,7 +64,8 @@ sportsci-refs compare 论文_Zotero.docx v3.docx          # 只有 word/document
 `SKILL.md` 给出流水线、铁律和检查项：
 
 ```bash
-git clone https://github.com/gaibin/sportsci-refs.git ~/.claude/skills/sportsci-refs
+git clone https://github.com/gaibin/sportsci-workflow.git
+cp -r sportsci-workflow/skills/sportsci-refs ~/.claude/skills/
 pip install -e ~/.claude/skills/sportsci-refs
 ```
 

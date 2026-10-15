@@ -1,4 +1,4 @@
 interface:
   display_name: "Sport Science Writing"
   short_description: "Polish, analyze, and visualize sport science writing"
-  default_prompt: "Use $sport-science-writing to polish or write this sport science material in the right academic register, preserving all facts, numbers, citations, and statistical meaning."
+  default_prompt: "Use $sportsci-writing to polish or write this sport science material in the right academic register, preserving all facts, numbers, citations, and statistical meaning."

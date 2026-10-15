@@ -1,5 +1,5 @@
 ---
-name: sport-science-writing
+name: sportsci-writing
 description: Use this skill whenever the user is writing, polishing, translating, restructuring, statistically reporting, or visualizing sport science manuscripts and theses in Chinese or English. It applies to SCI/SSCI journal papers, undergraduate/master's/PhD theses, narrative reviews, systematic reviews, meta-analyses, conference abstracts, exercise physiology, sport psychology, biomechanics, sports medicine, exercise biochemistry, training science, rehabilitation, and physical activity/public health. Also use it when the user asks for data analysis for sport science writing, including t-tests, ANOVA, correlations, effect sizes, reliability statistics, Results paragraphs, Nature-style figures, or removal of AI-sounding prose such as dashes, semicolons in running prose, 「不是…而是…」 and "not X but Y" contrast frames, parenthetical asides, "首先/其次", "delve/leverage/crucial", mechanical transitions, and chat/editorial residue (second person, "课题组", 待补/TODO, meta-discourse) that makes a manuscript read like an AI conversation.
 ---
 
@@ -179,6 +179,14 @@ assets/
 `README.md`, `LICENSE`, and `requirements.txt` are repository packaging files, not runtime instructions. Read reference files only when the current task needs them. Do not preload everything.
 
 Quoted journal paragraphs in a local `voice-samples/` folder (if you keep one) and in `before-after.md` are real published text and may contain dashes or semicolons. Learn their vocabulary and argument structure. Their punctuation does not override principle 2.
+
+## Related skills in this repository
+
+| Need | Use |
+|---|---|
+| choosing a topic, design and sample size | `sportsci-topic` |
+| analysing data from a design spec, figures, three-line tables, Results document | `sportsci-figures` (`scripts/stats.py` and `scripts/nature_plot.py` here are light helpers for ad-hoc checks inside a writing task) |
+| references, DOI checks, Zotero citation fields in Word | `sportsci-refs` |
 
 ## Final reminder
 

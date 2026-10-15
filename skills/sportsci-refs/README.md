@@ -23,8 +23,8 @@ move a citation, or fix the numbering — and one careless "select the paragraph
 ## Quick start
 
 ```bash
-git clone https://github.com/gaibin/sportsci-refs.git
-cd sportsci-refs
+git clone https://github.com/gaibin/sportsci-workflow.git
+cd sportsci-workflow/skills/sportsci-refs
 pip install -e .
 
 sportsci-refs status                                    # Zotero reachable? (needs Zotero 7 running)
@@ -76,7 +76,8 @@ Full playbook (Chinese, with Word COM checks and framed-template notes): [`refer
 `SKILL.md` gives an agent the pipeline, the iron rules and the checks. Clone into your skills folder:
 
 ```bash
-git clone https://github.com/gaibin/sportsci-refs.git ~/.claude/skills/sportsci-refs
+git clone https://github.com/gaibin/sportsci-workflow.git
+cp -r sportsci-workflow/skills/sportsci-refs ~/.claude/skills/
 pip install -e ~/.claude/skills/sportsci-refs
 ```
 

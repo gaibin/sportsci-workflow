@@ -1,4 +1,4 @@
-# sport-science-writing
+# sportsci-writing
 
 A portable agent skill for writing, polishing, and translating sport science manuscripts (journal papers, theses, reviews) in Chinese and English, with built-in statistics and Nature-style figure generation.
 
@@ -24,23 +24,23 @@ It will **not** fabricate data, citations, p-values, or DOIs. If something is mi
 
 ## Install
 
-Drop the `sport-science-writing/` directory anywhere your agent can read it.
+Drop the `sportsci-writing/` directory anywhere your agent can read it.
 
 ### Claude Code
 
 ```bash
 # project-scoped
-mv sport-science-writing .claude/skills/
+mv sportsci-writing .claude/skills/
 
 # or user-scoped (all projects)
-mv sport-science-writing ~/.claude/skills/
+mv sportsci-writing ~/.claude/skills/
 ```
 
 Claude Code auto-discovers `SKILL.md` files in those locations.
 
 ### Codex / Cursor / other agents
 
-Point your agent at `sport-science-writing/SKILL.md` as system context, or symlink it into whatever instruction directory the tool uses (`.cursor/rules/`, `AGENTS.md` include, etc.). The skill is plain markdown plus Python, with no Claude-specific APIs.
+Point your agent at `sportsci-writing/SKILL.md` as system context, or symlink it into whatever instruction directory the tool uses (`.cursor/rules/`, `AGENTS.md` include, etc.). The skill is plain markdown plus Python, with no Claude-specific APIs.
 
 ### Python dependencies (for scripts/)
 
@@ -61,7 +61,7 @@ Just talk to the agent. Examples:
 ## Layout
 
 ```
-sport-science-writing/
+sportsci-writing/
 ├── SKILL.md                    entry point — agent reads this first
 ├── README.md                   this file
 ├── references/                 loaded on demand by the agent
