@@ -22,7 +22,7 @@ If the shell says the command is not found, install it from this skill's folder 
 python -m pip install -e <path to this skill folder>
 ```
 
-From a source checkout, `python cli.py <command>` in this folder works once the dependencies are installed. Do this check once per machine, not before every command.
+If the package is installed but the command is still not found (common on Windows, where pip puts scripts in a folder that is not on PATH), use `python -m sportsci_refs.cli <command>` instead: it is the same program. From a source checkout, `python cli.py <command>` in this folder also works. Do this check once per machine, not before every command.
 
 ## Iron rules
 

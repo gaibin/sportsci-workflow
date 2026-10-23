@@ -7,11 +7,13 @@
     python install.py --skills-dir DIR      # another skills folder (default: ~/.claude/skills)
     python install.py --no-skills           # only pip install
 
-Standard library only. Existing skill folders are replaced after a backup copy named <skill>.bak.
+Standard library only. Existing skill folders are moved to <skills-dir>/../skills-backup/<skill>-<time> first
+(never inside the skills folder, where a backup would be loaded as a second copy of the skill).
 """
 from __future__ import annotations
 
 import argparse
+import datetime
 import shutil
 import subprocess
 import sys
@@ -66,16 +68,24 @@ def main(argv=None) -> int:
     if not args.no_skills:
         target = Path(args.skills_dir).expanduser()
         target.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        backup = target.parent / "skills-backup"
         for s in ALL_SKILLS:
             dst = target / s
-            if dst.exists():
-                bak = target / (s + ".bak")
-                if bak.exists():
-                    shutil.rmtree(bak)
+            if dst.exists() or dst.is_symlink():
+                backup.mkdir(parents=True, exist_ok=True)
+                bak = backup / f"{s}-{stamp}"
                 dst.rename(bak)
-                print(f"  existing {dst.name} moved to {bak.name}")
+                print(f"  existing {dst.name} moved to {bak}")
             shutil.copytree(SKILLS / s, dst, ignore=IGNORE)
         print(f"copied {len(ALL_SKILLS)} skills to {target}")
+
+    if not args.no_pip:
+        missing = [p for p in PACKAGES if shutil.which(p) is None]
+        if missing:
+            print("\nThe commands are installed but not on PATH. Either add pip's scripts folder to PATH, or run them as:")
+            for p in missing:
+                print(f"  python -m {p.replace('-', '_')}.cli --help")
     return 0
 
 
