@@ -152,6 +152,12 @@ EN_NOT_ONLY = re.compile(r"\bnot only\b[^.;]{1,80}\bbut (?:also|it also)\b",
 EN_HEDGE = re.compile(
     r"\b(?:may|might|could) (?:potentially|possibly)\b|"
     r"\bmay suggest that there (?:could|may|might)\b", re.IGNORECASE)
+# §5.3 self-undermining and §5.4 project-diary structure: warns, the sentence decides.
+EN_SELF_UNDERMINING = ["unfortunately", "regrettably", "admittedly",
+                       "we must acknowledge", "it must be acknowledged", "we must admit",
+                       "we have to admit", "serious limitations", "severe limitations"]
+EN_DIARY = re.compile(r"\bwe first\b[^.!?]{1,80}\bthen\b[^.!?]{1,80}\b(?:finally|lastly)\b",
+                      re.IGNORECASE)
 EN_TRICOLON = re.compile(
     r"\b[A-Za-z][\w-]*(?: [\w-]+){0,2}, [A-Za-z][\w-]*(?: [\w-]+){0,2},? and [A-Za-z][\w-]*")
 EN_SENTENCE_BOUNDARY = re.compile(r"(?<=[.!?])\s+(?=[A-Z])")
@@ -200,6 +206,15 @@ ZH_RESIDUE = [
     "待补", "上一版", "初稿",
 ]
 PLACEHOLDERS = re.compile(r"TODO|TBD|XXX|【[^】]*】|□□|\?\?|\[citation needed\]")
+
+# §6.3 自我削弱（防御性写作）. Hits are self-deprecating frames. Warns need context:
+# "效果有限" can be a fair summary of a small, precise effect.
+ZH_SELF_UNDERMINING = ["遗憾的是", "令人遗憾", "很遗憾", "不得不承认", "必须承认",
+                       "存在严重不足", "存在严重缺陷", "差强人意", "不尽如人意"]
+ZH_SELF_UNDERMINING_WARN = ["效果有限", "作用有限", "明显落后", "仍落后于",
+                            "应谨慎(?:理解|看待|解读)(?:这些|上述|该|本研究的?)?结果"]
+# §6.4 工作汇报式叙述. A warn: a Methods procedure ("先热身，然后……，最后拉伸") is legitimate.
+ZH_DIARY = re.compile(r"先[^。！？]{1,40}(?:然后|随后|接着)[^。！？]{1,40}(?:最后|最终)")
 
 # Author rule: every occurrence is a hit (§4.5).
 ZH_CONTRAST = re.compile(
@@ -371,6 +386,18 @@ def _scan_en(p: Paragraph, hits: list[Hit], tokens: list[tuple[str, Paragraph, i
                             "Keep only if literally accurate and supported by the data.",
                             "warn"))
 
+    for w in EN_SELF_UNDERMINING:
+        for m in re.finditer(rf"\b{re.escape(w)}\b", text, re.IGNORECASE):
+            line, col = p.loc(m.start())
+            hits.append(Hit(line, col, f"self-undermining: '{w}'", p.excerpt(m.start()),
+                            "Drop the judgement, keep the number and its CI (§5.3). Limitations stay in their paragraph.",
+                            "warn"))
+    for m in EN_DIARY.finditer(text):
+        line, col = p.loc(m.start())
+        hits.append(Hit(line, col, "project-diary structure", p.excerpt(m.start()),
+                        "In Introduction/Discussion: problem, gap, approach, evidence (§5.4). Ignore in a Methods procedure.",
+                        "warn"))
+
     for m in EN_TRAILING_ING.finditer(text):
         line, col = p.loc(m.start())
         hits.append(Hit(line, col, f"trailing -ing clause: '{m.group(1)}'", p.excerpt(m.start()),
@@ -484,6 +511,21 @@ def _scan_zh(p: Paragraph, hits: list[Hit]):
         line, col = p.loc(m.start())
         hits.append(Hit(line, col, "「不是……而是……」", p.excerpt(m.start()),
                         "直接陈述 B（§4.5）。", personal=True))
+
+    for w in ZH_SELF_UNDERMINING:
+        for m in re.finditer(w, text):
+            line, col = p.loc(m.start())
+            hits.append(Hit(line, col, f"自我削弱: '{m.group()}'", p.excerpt(m.start()),
+                            "删掉评价，留下数字和置信区间（§6.3）。局限照常写在局限段。"))
+    for w in ZH_SELF_UNDERMINING_WARN:
+        for m in re.finditer(w, text):
+            line, col = p.loc(m.start())
+            hits.append(Hit(line, col, f"自我削弱?: '{m.group()}'", p.excerpt(m.start()),
+                            "是对效应量的如实概括就保留，是替读者下的负面判断就删（§6.3）。", "warn"))
+    for m in ZH_DIARY.finditer(text):
+        line, col = p.loc(m.start())
+        hits.append(Hit(line, col, "工作汇报式叙述", p.excerpt(m.start()),
+                        "引言和讨论改成问题、缺口、做法、证据（§6.4）。方法部分描述操作步骤时忽略。", "warn"))
 
     residue = re.compile("|".join(map(re.escape, ZH_RESIDUE)))
     for m in residue.finditer(text):

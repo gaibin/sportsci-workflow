@@ -27,7 +27,7 @@ from ai_trace_check import scan_text, split_paragraphs  # noqa: E402
 CJK = re.compile(r"[一-鿿]")
 
 # Raise these when new rules catch more AI samples; never lower them.
-RECALL_FLOOR = {"en": 3, "zh": 12}
+RECALL_FLOOR = {"en": 3, "zh": 15}
 
 
 def hits(text: str, lang: str = "auto") -> list:
@@ -167,6 +167,47 @@ class Chinese(unittest.TestCase):
                  "是未来研究的方向之一，可以分门别类的帮助运动员应对压力。")
         self.assertFalse(any("的的不休" in r for r in rules(human, "zh")))
 
+
+
+class SelfUndermining(unittest.TestCase):
+    """ai-traces-zh.md §6.3-6.4 and ai-traces-en.md §5.3-5.4: tone stops defending, content keeps everything."""
+
+    def test_zh_frames_are_hits(self):
+        for text, word in [
+            ("遗憾的是，干预组纵跳高度仅提高 1.2 cm。", "遗憾的是"),
+            ("必须承认，本研究样本量偏小。", "必须承认"),
+            ("该方案对速度素质的作用存在严重不足。", "存在严重不足"),
+        ]:
+            with self.subTest(text=text):
+                found = rules(text, "zh")
+                self.assertTrue(any("自我削弱" in r and word in r for r in found), found)
+
+    def test_zh_context_words_warn_only(self):
+        text = "该干预对速度素质的效果有限。"
+        self.assertTrue(any("效果有限" in h.rule for h in warns(text, "zh")))
+        self.assertFalse(any("自我削弱" in r for r in rules(text, "zh")))
+
+    def test_honest_reporting_is_not_flagged(self):
+        for text in [
+            "不可避免地存在一定程度的样本流失。",
+            "结果应结合样本量谨慎解释。",
+            "本研究只纳入了男性大学生，结论能否推广到女性还有待验证。",
+            "主要结局纵跳高度未见组间差异（P = 0.27）。",
+        ]:
+            with self.subTest(text=text):
+                found = [h.rule for h in scan_text(text, "zh") if "自我削弱" in h.rule or "工作汇报" in h.rule]
+                self.assertEqual(found, [])
+
+    def test_diary_structure_warns(self):
+        zh = "本研究先采用问卷了解现状，然后设计训练方案，最后开展了 8 周干预。"
+        self.assertIn("工作汇报式叙述", [h.rule for h in warns(zh, "zh")])
+        en = "We first surveyed coaches, then designed the programme, and finally ran the trial."
+        self.assertIn("project-diary structure", [h.rule for h in warns(en, "en")])
+
+    def test_en_self_undermining_warns_not_hits(self):
+        text = "Unfortunately, we must acknowledge serious limitations."
+        self.assertTrue(any("self-undermining" in h.rule for h in warns(text, "en")))
+        self.assertFalse(any("self-undermining" in r for r in rules(text, "en")))
 
 
 class AuthorRules(unittest.TestCase):

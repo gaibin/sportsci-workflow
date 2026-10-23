@@ -135,6 +135,36 @@ For a full manuscript or Discussion section, create a compact claim-evidence map
 
 Use the map to identify unsupported mechanisms, overgeneralization, duplicated claims, and conclusions that rely on secondary outcomes.
 
+## 10. Every analysis has a job
+
+Each analysis, table and figure in the main text should do at least one of:
+
+- test the primary hypothesis
+- show where the effect comes from (mechanism, dose, a pre-specified subgroup)
+- show that the finding matters in the target setting
+- rule out the most likely alternative explanation (confounding, learning effect, regression to the mean)
+
+An analysis that does none of these moves to the supplement. It is not deleted: pre-specified outcomes are always reported, even when unremarkable, and post-hoc analyses are labelled exploratory.
+
+## 11. Defensive-writing check (before submission)
+
+The tone should not defend. The content should not hide. Check whether:
+
+- a sentence takes on a responsibility the study never claimed (for example "athletes were not tested" when athletes were never the target population)
+- the text raises a question nobody asked
+- one result is turned into a general flaw ("sprint time did not change, so the programme is ineffective")
+- a negative judgement is broader than its evidence
+- the text reads as a project diary (first, then, finally)
+- the first sentences of the abstract state the question and the main result
+- the conclusion ends with new self-criticism
+
+What this check never permits:
+
+- switching the primary outcome or the analysis after seeing the data
+- leaving out a pre-specified outcome because it was unfavourable
+- presenting "no difference" (P ≥ 0.05) as a benefit, or a secondary or post-hoc result as the main finding
+- dropping or hollowing out the limitations paragraph
+
 ## Output format
 
 Report findings before rewriting. Use the following order:

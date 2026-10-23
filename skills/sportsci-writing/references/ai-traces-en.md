@@ -217,6 +217,24 @@ Semicolons inside brackets stay: grouped statistics `(t = 2.10, P = 0.04; t = 2.
 - ❌ In summary, this section has discussed the methods used in the present study.
 - ✅ (delete the sentence. The section is over.)
 
+### 5.3 Self-undermining (defensive writing)
+
+The author lists the weaknesses before the reviewer has said anything.
+
+- ❌ Unfortunately, the intervention produced only a modest improvement, and we must acknowledge serious limitations.
+- ✅ After 12 weeks, grip strength increased by 2.1 kg more in the intervention group than in controls (95% CI 0.4 to 3.8).
+
+Tells: `unfortunately`, `regrettably`, `admittedly`, `we must acknowledge / admit`, `serious limitations`, `only` in front of an effect. Let the effect size and its interval carry the judgement.
+
+**Boundary: the tone stops defending, the content keeps everything.** Pre-specified primary outcomes are reported whatever they show and are never swapped for a better-looking one. A null result is written as "did not differ" with P and the CI. Limitations stay in the limitations paragraph, each with its consequence for the conclusion (`logic-check.md` §6). Only the self-deprecating frame goes.
+
+### 5.4 Project-diary structure
+
+- ❌ We first surveyed current practice, then reviewed the literature to design the programme, and finally ran an 8-week intervention.
+- ✅ Lower-limb power is low in university students [refs], and standard PE classes do little to change it. This trial tested whether 8 weeks of functional training improves jump height without adding class time.
+
+Keep only the logic that stands at the end: why the problem matters, what is missing, what this study did, what the evidence shows. How the project developed belongs in the lab notebook.
+
 ## 6. Field-specific notes
 
 - **Methods:** past tense, passive voice acceptable but not required. Modern style favors active voice ("We measured…") in many journals. Check the target journal.
@@ -239,5 +257,7 @@ Semicolons inside brackets stay: grouped statistics `(t = 2.10, P = 0.04; t = 2.
 11. Paragraph ends by restating its first sentence? → delete the ending.
 12. "First to," "comprehensive," "novel," "groundbreaking" without citation support? → delete.
 13. Stacked hedging (`may potentially suggest there could be`)? → simplify.
+14. Self-undermining (`unfortunately`, `we must acknowledge`, `serious limitations`)? → drop the judgement, keep the number. Primary outcomes, null results and limitations stay. (§5.3)
+15. Organised as a project diary (`first we… then we… finally we…`)? → problem, gap, approach, evidence. (§5.4)
 
 If any check still fires, rewrite. Then run the positive check in `references/human-voice-en.md` §10.

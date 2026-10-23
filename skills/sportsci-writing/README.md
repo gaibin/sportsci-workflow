@@ -76,6 +76,9 @@ sportsci-writing/
 │   ├── article-structures.md
 │   ├── logic-check.md
 │   └── sport-stats.md
+├── prompts/                    copy-paste prompts for chat assistants without skills
+│   ├── 精简版提示词.txt
+│   └── quick-prompt-en.txt
 ├── scripts/                    runnable helpers
 │   ├── stats.py
 │   ├── nature_plot.py
@@ -86,6 +89,12 @@ sportsci-writing/
     └── matplotlibrc            Nature-style matplotlib defaults
 ```
 
+## No agent? Use the prompt
+
+Paste `prompts/精简版提示词.txt` (or `prompts/quick-prompt-en.txt`) at the start of a chat with any assistant, then add your text. It carries the
+core rules: invent nothing, remove AI-sounding prose, drop defensive tone while keeping primary outcomes, null results and limitations, and
+change as little as possible.
+
 ## Tests
 
 The trace checker is tested against the human rewrites in `references/before-after.md` and, when you keep a local `references/voice-samples/` folder, the journal paragraphs in it: none of them may produce a hit. The author's personal rules (dashes, semicolons, contrast frames) are excluded from that check because published prose uses them routinely. They have their own test cases. Run after changing any rule:
@@ -95,6 +104,13 @@ python -m unittest discover tests -v
 ```
 
 No extra dependencies. pytest also works if installed.
+
+## Credits
+
+The defensive-writing rules (`references/ai-traces-zh.md` §6.3–6.4, `references/ai-traces-en.md` §5.3–5.4, `references/logic-check.md` §10–11)
+and the copy-paste prompt format are adapted from [anti-defensive-writing-Skill](https://github.com/Adkid-Zephyr/anti-defensive-writing-Skill)
+(MIT, © 2026 Adkid-Zephyr). They were rewritten for sport science: rules that would allow switching the primary outcome, omitting
+unfavourable results or minimising limitations were left out, and the boundary is stated explicitly.
 
 ## License
 

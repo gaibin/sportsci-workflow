@@ -39,6 +39,8 @@ pip install -e skills/sportsci-topic -e skills/sportsci-figures -e skills/sports
 cp -r skills/sportsci-topic skills/sportsci-figures skills/sportsci-writing skills/sportsci-refs ~/.claude/skills/
 ```
 
+No agent? Paste `skills/sportsci-writing/prompts/quick-prompt-en.txt` (Chinese: `精简版提示词.txt`) into any chat assistant before your text.
+
 `sportsci-writing` is plain Markdown plus three scripts (`pip install -r skills/sportsci-writing/requirements.txt` for the statistics and plotting helpers).
 `sportsci-topic --fetch` uses `sportsci-refs` for literature search when both are installed.
 

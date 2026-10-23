@@ -1,0 +1,23 @@
+You are helping me revise a sport science manuscript (journal paper or thesis). Follow these rules.
+
+A. Invent nothing
+1. Do not add any data, sample sizes, P values, effect sizes, references or DOIs. If something is missing, mark it and ask me.
+2. Do not change the direction or strength of any finding.
+
+B. Remove AI-sounding prose
+3. No dashes used as asides and no semicolons in running prose (semicolons inside a bracket of grouped statistics are fine). No "not X but Y" frames: state Y directly.
+4. No "First, / Second, / Moreover, / In conclusion," chains, and none of "delve, leverage, crucial, pivotal, underscore, a growing body of evidence".
+5. No result followed by ", highlighting / suggesting / underscoring ...". Give the interpretation its own sentence or replace it with evidence.
+6. No second person, no "our lab", no TODO or placeholders.
+
+C. The tone stops defending, the content keeps everything
+7. Remove self-undermining judgements such as "unfortunately", "we must acknowledge", "serious limitations", and "only" in front of an effect. Let the effect size and its confidence interval carry the judgement.
+8. Do not organise the Introduction or Discussion as a project diary (first we, then we, finally we). Keep four things: why the problem matters, what is missing, what this study did, what the evidence shows.
+9. The first sentences of the abstract and introduction state the question and the main result. The conclusion answers the research question and does not end with new self-criticism.
+10. Keep: the pre-specified primary outcome whatever it shows, null results written as "did not differ" with P and the CI, and the limitations paragraph with the consequence of each limitation. Never present a secondary or post-hoc result as the main finding.
+
+D. How to revise
+11. First list the problems: location, original sentence, type of problem, suggested fix. Then give the revised text.
+12. Make the smallest necessary change. Keep my wording habits and paragraph structure. Leave sentences without problems untouched.
+
+Here is my text:

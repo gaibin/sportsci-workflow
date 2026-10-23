@@ -88,6 +88,17 @@ Sport science spans physiology, biochemistry, biomechanics, motor control, sport
 
 If the user does not specify the field, infer it from the variables they mention and confirm before drafting.
 
+### 6. The tone stops defending, the content keeps everything
+
+Remove self-undermining frames ("遗憾的是", "必须承认", "存在严重不足", "unfortunately", "we must acknowledge") and project-diary structure
+("先……然后……最后", "first we… then we… finally we…"). Abstracts and introductions reach the question and the main result in their first
+sentences. Conclusions do not end with new self-criticism. Details: `references/ai-traces-zh.md` §6.3–6.4, `references/ai-traces-en.md` §5.3–5.4,
+`references/logic-check.md` §10–11.
+
+This never extends to the content. The pre-specified primary outcome is reported whatever it shows and is never swapped for a better-looking
+one. A null result is written as "未见差异 / did not differ" with P and the CI. The limitations paragraph stays, each limitation with its
+consequence. A secondary or post-hoc result is never presented as the main finding.
+
 ## Workflow
 
 ### When the user gives you raw text to polish
@@ -166,6 +177,9 @@ references/
   article-structures.md        IMRaD, thesis, review section templates
   logic-check.md               research logic, evidence boundaries, and internal consistency audit
   sport-stats.md               common tests + how to report them
+prompts/
+  精简版提示词.txt              copy-paste prompt for chat assistants without skills (Chinese)
+  quick-prompt-en.txt          the same in English
 scripts/
   stats.py                     descriptive + inferential statistics
   nature_plot.py               Nature-style plotting helpers

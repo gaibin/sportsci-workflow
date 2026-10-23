@@ -39,6 +39,8 @@ pip install -e skills/sportsci-topic -e skills/sportsci-figures -e skills/sports
 cp -r skills/sportsci-topic skills/sportsci-figures skills/sportsci-writing skills/sportsci-refs ~/.claude/skills/
 ```
 
+没有智能体？把 `skills/sportsci-writing/prompts/精简版提示词.txt` 粘贴到任何聊天助手（ChatGPT、Kimi、豆包等）的对话开头，再贴上你的文字即可。
+
 `sportsci-writing` 是 Markdown 加三个脚本（统计和绘图辅助需要 `pip install -r skills/sportsci-writing/requirements.txt`）。
 两者都装时，`sportsci-topic --fetch` 会借用 `sportsci-refs` 联网检索文献。
 

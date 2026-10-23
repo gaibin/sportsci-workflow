@@ -18,6 +18,7 @@ Sections (with subheadings if structured): Background / Purpose / Methods / Resu
 - Methods: design, n, intervention/exposure, primary outcome.
 - Results: at least one effect estimate with 95% CI or P-value for the primary outcome.
 - Conclusion: one sentence that states what the data support, with no implications beyond the data.
+- The opening sentences state the problem and the gap, not a textbook definition or the history of the field. A reader who stops after the first Results sentence should know what was tested and what was found.
 
 ### Keywords
 3–6 terms. Use MeSH terms where possible. Avoid words already in the title.
@@ -30,6 +31,8 @@ A useful internal structure (do **not** signpost it with "首先/其次"):
 2. What is known (1–2 paragraphs): the relevant literature, summarized critically.
 3. What is **not** known: the gap. Be specific. "Few studies have examined…" needs a citation showing the gap is real.
 4. Purpose / hypothesis (1 short paragraph): explicit aim, explicit hypothesis (directional if justified).
+
+Reach the gap quickly. By the end of the first paragraph the reader should know which problem the study addresses. Do not narrate how the project developed (`ai-traces-zh.md` §6.4, `ai-traces-en.md` §5.4).
 
 ### Methods
 
@@ -62,6 +65,7 @@ Common 4-paragraph structure (again, do not signpost):
 - Two to four sentences.
 - States what the study found and the most defensible practical implication.
 - No new claims, no new citations.
+- No new self-criticism. Limitations belong in the limitations paragraph (in a Chinese thesis, 研究局限与展望). The conclusion answers the research question and ends on the most defensible implication.
 
 ### Acknowledgments, Funding, Conflicts of interest, Data availability
 Per journal template.
