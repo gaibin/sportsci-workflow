@@ -36,6 +36,7 @@ desktop.ini
 _test_*.txt
 _scratch/
 *.local.md
+*.local.py
 
 # Real journal paragraphs kept locally for register practice; not redistributed
 references/voice-samples/

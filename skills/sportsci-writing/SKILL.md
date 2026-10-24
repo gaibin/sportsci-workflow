@@ -1,6 +1,6 @@
 ---
 name: sportsci-writing
-description: Use this skill whenever the user is writing, polishing, translating, restructuring or logic-checking sport science manuscripts and theses in Chinese or English, including SCI/SSCI papers, bachelor's/master's/PhD theses, reviews, meta-analyses, conference abstracts, proposals, across exercise physiology, sport psychology, biomechanics, sports medicine, exercise biochemistry, training science, rehabilitation and physical activity/public health. It also covers how statistics are worded in prose (t, F, P, effect sizes, CIs, Results sentences) and removal of AI-sounding prose such as dashes, semicolons in running prose, 「不是…而是…」 and "not X but Y" contrast frames, parenthetical asides, "首先/其次", "delve/leverage/crucial", mechanical transitions, and chat/editorial residue (second person, "课题组", 待补/TODO, meta-discourse). It does not run the analysis or build result figures and tables (use sportsci-figures), choose a topic or sample size (use sportsci-topic), or manage Zotero citations in Word (use sportsci-refs).
+description: Use this skill whenever the user is writing, polishing, translating, restructuring or logic-checking sport science manuscripts and theses in Chinese or English, including SCI/SSCI papers, bachelor's/master's/PhD theses, reviews, meta-analyses, conference abstracts, proposals, across exercise physiology, sport psychology, biomechanics, sports medicine, exercise biochemistry, training science, rehabilitation and physical activity/public health. It also covers how statistics are worded in prose (t, F, P, effect sizes, CIs, Results sentences) and removal of AI-sounding prose such as dashes, semicolons in running prose, 「不是…而是…」 and "not X but Y" contrast frames, parenthetical asides, "首先/其次", "delve/leverage/crucial", mechanical transitions, and chat/editorial residue (second person, "课题组", 待补/TODO, meta-discourse). It also finalizes a delivered Word file: number grouping, spaces between Chinese and Latin text, caption and heading spacing, 宋体/Times New Roman, 小四, 1.5 line spacing, figure and table spacing, for 排版、字体字号、行距、千分位、图表格式. It does not run the analysis or build result figures and tables (use sportsci-figures), choose a topic or sample size (use sportsci-topic), or manage Zotero citations in Word (use sportsci-refs).
 ---
 
 # Sport Science Writing & Polishing
@@ -99,6 +99,23 @@ This never extends to the content. The pre-specified primary outcome is reported
 one. A null result is written as "未见差异 / did not differ" with P and the CI. The limitations paragraph stays, each limitation with its
 consequence. A secondary or post-hoc result is never presented as the main finding.
 
+### 7. A Word file has to look written by a person
+
+Before any .docx leaves your hands (manuscript, submission copy, cover letter, supplement), run
+`scripts/docx_finalize.py` and read `references/docx-delivery.md`. It fixes what generated documents give away:
+
+- numbers: in Chinese text 4-digit numbers without separator (6045), 5+ digits with a comma (33,987), never a space
+  inside a number. English paragraphs use commas from 1,000 up
+- spaces: none between Chinese and Latin letters, digits or full-width punctuation, captions written "表1　表名",
+  heading numbers followed by one full-width space, no double spaces
+- layout: 宋体 + Times New Roman, title 小三 黑体, body 小四 with 1.5 line spacing, picture paragraphs single spacing,
+  captions and tables 五号/小五, wide tables autofit. The target journal's own instructions override these defaults
+
+Document metadata (author, created and modified times) is a personal setting. If `scripts/docx_metadata.local.py`
+exists locally, the finalize script calls it. It is never committed.
+
+Run `docx_finalize.py --check` and look at two or three rendered pages before saying the file is ready.
+
 ## Workflow
 
 ### When the user gives you raw text to polish
@@ -176,6 +193,7 @@ references/
   citations.md                 APA7 / Vancouver / GB/T 7714
   article-structures.md        IMRaD, thesis, review section templates
   logic-check.md               research logic, evidence boundaries, and internal consistency audit
+  docx-delivery.md             numbers, spaces, fonts, line spacing and metadata of a delivered .docx (zh and en)
   sport-stats.md               common tests + how to report them
 prompts/
   精简版提示词.txt              copy-paste prompt for chat assistants without skills (Chinese)
@@ -184,6 +202,7 @@ scripts/
   stats.py                     descriptive + inferential statistics
   nature_plot.py               Nature-style plotting helpers
   ai_trace_check.py            scan text for AI traces (hits must be fixed, warnings need judgment)
+  docx_finalize.py             fix numbers, spaces, fonts, spacing and metadata of a .docx before delivery
 tests/
   test_ai_trace_check.py       regression tests. Run after changing any rule
 assets/
@@ -215,4 +234,5 @@ The bar is: a careful human reviewer in sport science cannot tell this text was 
 - 任何对话残留：第二人称、指示读者、口语、第一人称叙事、"课题组/我们组"、内部讨论话术、待补/TODO/XXX、孤立标点段
 - 段尾换种说法重复段首
 - English: trailing `, highlighting / suggesting …` clauses, sentence-initial `Notably / Importantly / Overall`, "plays a key role", "offers valuable insights", "further research is warranted"
+- 交付的 .docx：数字中间有空格、"表 1  "式双空格、图片段落 1.5 倍行距、宽表首列被压窄 → 跑 `docx_finalize.py`
 - English: any sentence that would fit unchanged into another paper (the any-paper test in `references/human-voice-en.md` §1)
